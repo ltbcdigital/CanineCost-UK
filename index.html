@@ -563,19 +563,14 @@
         const mainContainer = document.getElementById("procedureGrid");
         const filterCat = document.getElementById("categoryFilter").value;
         const searchTxt = document.getElementById("searchBox").value.toLowerCase();
-        const postcodeKey = document.getElementById("postcodeSelect").value;
+        
+        // Default to Gloucester (GL) baseline if no postcode is selected yet so cards show immediately
+        let postcodeKey = document.getElementById("postcodeSelect").value;
+        if (!postcodeKey) {
+          postcodeKey = "GL";
+        }
 
         mainContainer.innerHTML = "";
-
-        if (!postcodeKey) {
-          mainContainer.innerHTML = `
-            <div style="text-align: center; padding: 4rem 2rem; background: white; border-radius: 1rem; border: 1px solid var(--slate-200);">
-              <div style="font-size: 1.25rem; font-weight: 700; color: var(--slate-900); margin-bottom: 0.5rem;">Please select a postcode area above</div>
-              <p style="color: var(--slate-700);">Choose your regional postcode to calculate accurate localized estimates and tax rates.</p>
-            </div>
-          `;
-          return;
-        }
 
         const filtered = procedures.filter(p => {
           const matchCat = (filterCat === "ALL" || p.category === filterCat);
