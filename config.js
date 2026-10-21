@@ -4,7 +4,7 @@
  */
 window.CANINE_CONFIG = {
   branding: {
-    siteName: "My Vets",
+    siteName: "CanineCost UK",
     logoUrl: "", // Optional: Path to custom image (e.g., "logo.png"). Leave empty for default paw icon.
     primaryColor: "#0f766e",       // Main brand hex color
     primaryDark: "#115e59",        // Slightly darker shade for button hover states
