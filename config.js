@@ -9,15 +9,15 @@ window.CANINE_CONFIG = {
     primaryColor: "#0f766e",       // Main brand hex color
     primaryDark: "#115e59",        // Slightly darker shade for button hover states
     primaryLight: "#f0fdf4",       // Very light shade for background highlights
-    tagline: "Transparent UK Dog Surgery & Vet Cost Estimator",
+    tagline: "Transparent UK & Crown Dependency Dog Surgery & Vet Cost Estimator",
     operatorName: "Your Practice Name",
     contactEmail: "info@yourpractice.co.uk",
     emergencyPhone: "",            // Leave empty to hide direct tel: link or enter practice emergency line
     bookingUrl: "https://yourpractice.co.uk/book", // Leave empty to hide booking card when not configured
     emergencyBannerText: "Is your dog in a critical condition or facing a life-threatening emergency? Do not use this website to check prices. Call your nearest 24/7 emergency vet hospital straight away.",
     pricesLastReviewed: "October 2026",
-    priceSource: "Illustrative local clinic estimates based on regional overhead surveys.",
-    siteUrl: "" // Leave empty by default so template users must configure their own domain canonical
+    priceSource: "Illustrative estimates only.",
+    siteUrl: "https://caninecostuk.ltbcdigital.workers.dev/"
   },
 
   postcodes: {
