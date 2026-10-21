@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="en-GB" class="scroll-smooth">
 <head>
-  <meta name="google-site-verification" content="2R9MdHmhGw1QsRO48iv0AtvNYMW7nxsopqzMPRcMFL0" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CanineCostUK</title>
+  <title>Veterinary Cost Estimator</title>
   <meta name="description" id="metaDesc" content="">
-    
+  <link rel="canonical" href="https://caninecostuk.ltbcdigital.workers.dev/">
   
-
   <style>
     :root {
       --primary: #0f766e;
@@ -124,10 +122,8 @@
     .cookie-btn:hover { background: var(--slate-100); }
     @media (min-width: 640px) { .cookie-btn { width: auto; flex-shrink: 0; } }
 
-    /* New Affiliate Recommendation Card Styles */
     .recommendation-card { position: relative; background: #ffffff; border: 2px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); margin-bottom: 1.5rem; transition: transform 0.2s ease, border-color 0.2s ease; }
     .recommendation-card:hover { transform: translateY(-2px); border-color: #cbd5e1; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-    .disclosure-badge { position: absolute; top: -12px; right: 20px; background: #f1f5f9; color: #64748b; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; border: 1px solid #e2e8f0; letter-spacing: 0.05em; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
     .card-layout { display: flex; align-items: center; gap: 1.5rem; justify-content: space-between; }
     .card-body { flex: 1; }
     .card-action { flex-shrink: 0; }
@@ -176,7 +172,7 @@
       </nav>
 
       <!-- Mobile Hamburger Button -->
-      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu" aria-expanded="false" id="menuToggleBtn">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
       </button>
     </div>
@@ -194,7 +190,7 @@
     <div class="container">
       <div style="display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
         <span class="badge badge-teal">Independent UK Price Guide</span>
-        <span class="badge" style="background: var(--slate-100); color: var(--slate-700);">124 Postcodes &bull; 20% VAT Inclusive</span>
+        <span class="badge" style="background: var(--slate-100); color: var(--slate-700);" id="heroMetaBadge">Loading Postcodes &bull; 20% VAT Inclusive</span>
       </div>
       <h1 class="hero-title">Transparent UK Dog Surgery & Vet Cost Estimator</h1>
       <p class="hero-subtitle">Compare realistic, itemised veterinary costs across the United Kingdom. Adjusted for dog weight, regional clinic overheads, and statutory VAT with zero hidden fees.</p>
@@ -222,140 +218,26 @@
         <div>
           <label for="postcodeSelect">1. UK Postcode Area</label>
           <select id="postcodeSelect" onchange="updateEstimates()">
-            <option value="AB">AB - Aberdeen</option>
-            <option value="AL">AL - St Albans</option>
-            <option value="B">B - Birmingham / West Midlands</option>
-            <option value="BA">BA - Bath</option>
-            <option value="BB">BB - Blackburn</option>
-            <option value="BD">BD - Bradford</option>
-            <option value="BH">BH - Bournemouth</option>
-            <option value="BL">BL - Bolton</option>
-            <option value="BN">BN - Brighton</option>
-            <option value="BR">BR - Bromley</option>
-            <option value="BS">BS - Bristol</option>
-            <option value="BT">BT - Belfast / Northern Ireland</option>
-            <option value="CA">CA - Carlisle</option>
-            <option value="CB">CB - Cambridge</option>
-            <option value="CF">CF - Cardiff / South Wales</option>
-            <option value="CH">CH - Chester</option>
-            <option value="CM">CM - Chelmsford</option>
-            <option value="CO">CO - Colchester</option>
-            <option value="CR">CR - Croydon</option>
-            <option value="CT">CT - Canterbury</option>
-            <option value="CV">CV - Coventry</option>
-            <option value="CW">CW - Crewe</option>
-            <option value="DA">DA - Dartford</option>
-            <option value="DD">DD - Dundee</option>
-            <option value="DE">DE - Derby</option>
-            <option value="DG">DG - Dumfries</option>
-            <option value="DH">DH - Durham</option>
-            <option value="DL">DL - Darlington</option>
-            <option value="DN">DN - Doncaster</option>
-            <option value="DT">DT - Dorchester</option>
-            <option value="E">E - East London</option>
-            <option value="EC">EC - Central London East</option>
-            <option value="EH">EH - Edinburgh</option>
-            <option value="EN">EN - Enfield</option>
-            <option value="EX">EX - Exeter</option>
-            <option value="FK">FK - Falkirk</option>
-            <option value="FY">FY - Blackpool</option>
-            <option value="G">G - Glasgow</option>
-            <option value="GL" selected>GL - Gloucester (Baseline)</option>
-            <option value="GU">GU - Guildford / South East</option>
-            <option value="GY">GY - Guernsey</option>
-            <option value="HA">HA - Harrow</option>
-            <option value="HD">HD - Huddersfield</option>
-            <option value="HG">HG - Harrogate</option>
-            <option value="HP">HP - Hemel Hempstead</option>
-            <option value="HR">HR - Hereford</option>
-            <option value="HS">HS - Outer Hebrides</option>
-            <option value="HU">HU - Hull</option>
-            <option value="HX">HX - Halifax</option>
-            <option value="IG">IG - Ilford</option>
-            <option value="IM">IM - Isle of Man</option>
-            <option value="IP">IP - Ipswich</option>
-            <option value="IV">IV - Inverness</option>
-            <option value="JE">JE - Jersey</option>
-            <option value="KA">KA - Kilmarnock</option>
-            <option value="KT">KT - Kingston upon Thames</option>
-            <option value="KW">KW - Kirkwall</option>
-            <option value="KY">KY - Kirkcaldy</option>
-            <option value="L">L - Liverpool</option>
-            <option value="LA">LA - Lancaster</option>
-            <option value="LD">LD - Llandrindod Wells</option>
-            <option value="LE">LE - Leicester</option>
-            <option value="LL">LL - Llandudno</option>
-            <option value="LS">LS - Leeds</option>
-            <option value="M">M - Manchester / North West</option>
-            <option value="ME">ME - Rochester / Medway</option>
-            <option value="MK">MK - Milton Keynes</option>
-            <option value="N">N - North London</option>
-            <option value="NE">NE - Newcastle upon Tyne</option>
-            <option value="NG">NG - Nottingham</option>
-            <option value="NN">NN - Northampton</option>
-            <option value="NP">NP - Newport</option>
-            <option value="NR">NR - Norwich</option>
-            <option value="NW">NW - North West London</option>
-            <option value="OL">OL - Oldham</option>
-            <option value="OX">OX - Oxford</option>
-            <option value="PA">PA - Paisley</option>
-            <option value="PH">PH - Perth</option>
-            <option value="PL">PL - Plymouth</option>
-            <option value="PO">PO - Portsmouth</option>
-            <option value="PR">PR - Preston</option>
-            <option value="RG">RG - Reading</option>
-            <option value="RH">RH - Redhill / Surrey</option>
-            <option value="RM">RM - Romford</option>
-            <option value="S">S - Sheffield</option>
-            <option value="SA">SA - Swansea</option>
-            <option value="SE">SE - South East London</option>
-            <option value="SG">SG - Stevenage</option>
-            <option value="SL">SL - Slough</option>
-            <option value="SM">SM - Sutton</option>
-            <option value="SN">SN - Swindon</option>
-            <option value="SO">SO - Southampton</option>
-            <option value="SP">SP - Salisbury</option>
-            <option value="SR">SR - Sunderland</option>
-            <option value="ST">ST - Stoke-on-Trent</option>
-            <option value="SW">SW - South West London</option>
-            <option value="SY">SY - Shrewsbury</option>
-            <option value="TA">TA - Taunton</option>
-            <option value="TD">TD - Galashiels</option>
-            <option value="TF">TF - Telford</option>
-            <option value="TN">TN - Tunbridge Wells</option>
-            <option value="TQ">TQ - Torquay</option>
-            <option value="TR">TR - Truro</option>
-            <option value="TS">TS - Cleveland</option>
-            <option value="TW">TW - Twickenham</option>
-            <option value="UB">UB - Uxbridge</option>
-            <option value="W">W - West London</option>
-            <option value="WC">WC - Central London West</option>
-            <option value="WF">WF - Wakefield</option>
-            <option value="WN">WN - Wigan</option>
-            <option value="WR">WR - Worcester</option>
-            <option value="WS">WS - Walsall</option>
-            <option value="WV">WV - Wolverhampton</option>
-            <option value="YO">YO - York</option>
-            <option value="ZE">ZE - Lerwick</option>
+            <!-- Populated dynamically from config.js -->
           </select>
         </div>
         
         <div>
           <label>2. Dog Weight Class</label>
-          <div class="weight-list">
-            <button type="button" class="weight-list-item" data-val="0.8" onclick="selectWeight(0.8, this)">
+          <div class="weight-list" role="radiogroup" aria-label="Dog Weight Class">
+            <button type="button" class="weight-list-item" role="radio" aria-checked="false" data-val="0.8" onclick="selectWeight(0.8, this)">
               <span class="w-title">Toy</span>
               <span class="w-sub">&lt; 5kg</span>
             </button>
-            <button type="button" class="weight-list-item active" data-val="1.0" onclick="selectWeight(1.0, this)">
+            <button type="button" class="weight-list-item active" role="radio" aria-checked="true" data-val="1.0" onclick="selectWeight(1.0, this)">
               <span class="w-title">Small / Med</span>
               <span class="w-sub">5 – 20kg</span>
             </button>
-            <button type="button" class="weight-list-item" data-val="1.3" onclick="selectWeight(1.3, this)">
+            <button type="button" class="weight-list-item" role="radio" aria-checked="false" data-val="1.3" onclick="selectWeight(1.3, this)">
               <span class="w-title">Large</span>
               <span class="w-sub">20 – 40kg</span>
             </button>
-            <button type="button" class="weight-list-item" data-val="1.6" onclick="selectWeight(1.6, this)">
+            <button type="button" class="weight-list-item" role="radio" aria-checked="false" data-val="1.6" onclick="selectWeight(1.6, this)">
               <span class="w-title">Giant</span>
               <span class="w-sub">&gt; 40kg</span>
             </button>
@@ -366,8 +248,8 @@
         <div>
           <label for="categoryFilter">3. Procedure Category</label>
           <select id="categoryFilter" onchange="filterProcedures()">
-            <option value="ALL">All 26 Procedures</option>
-            <option value="ORTHOPEDIC">Orthopedic & Joints</option>
+            <option value="ALL">All Procedures</option>
+            <option value="ORTHOPAEDIC">Orthopaedic & Joints</option>
             <option value="SOFT_TISSUE">Soft Tissue & Abdominal</option>
             <option value="EMERGENCY">Emergency & Trauma</option>
             <option value="OPHTHALMIC">Eye Surgery</option>
@@ -380,7 +262,7 @@
         <label for="searchBox">Search Procedures</label>
         <div style="position: relative;">
           <input type="text" id="searchBox" placeholder="e.g. cruciate, bloat, teeth, eye..." oninput="filterProcedures()" style="padding-left: 2.75rem;">
-          <svg style="position: absolute; left: 0.875rem; top: 50%; transform: translateY(-50%); color: #64748b;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <svg style="position: absolute; left: 0.875rem; top: 50%; transform: translateY(-50%); color: #64748b;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </div>
       </div>
     </div>
@@ -405,11 +287,11 @@
       </div>
 
       <div id="modalEmergencyWarning" style="display: none; background: var(--rose-50); border: 1px solid #fecdd3; border-radius: 0.75rem; padding: 1rem; margin-bottom: 1.5rem; color: #9f1239; font-size: 0.9rem;">
-        <strong>Life-Threatening Emergency:</strong> If your dog is in a critical condition, do not delay treatment or wait for cost calculations. Contact a 24/7 veterinary hospital immediately.
+        <strong>Life-Threatening Emergency:</strong> If your dog is in a critical condition, do not delay treatment or wait for cost calculations. Please call your nearest 24/7 emergency veterinary hospital straight away.
       </div>
 
       <div style="background: var(--slate-50); border-radius: 0.75rem; padding: 1.25rem; margin-bottom: 1.5rem;">
-        <div style="font-size: 0.875rem; color: var(--slate-700); margin-bottom: 0.25rem;">Estimated Total (Includes 20% UK VAT)</div>
+        <div style="font-size: 0.875rem; color: var(--slate-700); margin-bottom: 0.25rem;">Estimated Total (Includes 20% UK VAT &bull; Line-item rounded aggregate)</div>
         <div id="modalPrice" style="font-size: 2.25rem; font-weight: 800; color: var(--primary);">£0</div>
         <div id="modalRange" style="font-size: 0.85rem; color: var(--slate-700); margin-top: 0.25rem;">Expected range: £0 - £0</div>
       </div>
@@ -427,7 +309,7 @@
         Prices include 20% UK VAT. Independent average price guide for clinical comparison.
       </div>
 
-      <!-- Dynamic Affiliate Callout Slot -->
+      <!-- Dynamic Affiliate / Action Slot -->
       <div id="modalAffiliateSlot"></div>
 
       <div style="display: flex; justify-content: flex-end; gap: 1rem;">
@@ -489,12 +371,12 @@
         
         <div style="background: var(--slate-50); padding: 1rem; border-radius: 0.75rem; border-left: 4px solid var(--primary);">
           <strong style="color: var(--slate-900);">Client-Side Storage (PECR Compliance)</strong>
-          <p style="margin-top: 0.25rem;">To make the calculator work seamlessly, this site uses functional local browser storage to remember your <strong>UK Postcode</strong> and <strong>Dog Weight Class</strong> between visits. This data never leaves your device and is never transmitted to our servers.</p>
+          <p style="margin-top: 0.25rem;">To make the calculator work seamlessly, this site uses functional local browser storage solely to remember your <strong>UK Postcode</strong> and <strong>Dog Weight Class</strong> between visits. This data never leaves your device and is never transmitted to our servers.</p>
         </div>
 
         <div style="background: var(--slate-50); padding: 1rem; border-radius: 0.75rem; border-left: 4px solid var(--primary);">
           <strong style="color: var(--slate-900);">Third-Party Links</strong>
-          <p style="margin-top: 0.25rem;">If you click an external link (such as comparing pet insurance), you will be directed to a third-party website. Those platforms operate under their own privacy policies.</p>
+          <p style="margin-top: 0.25rem;">If you click an external link, you will be directed to a third-party website operating under its own privacy policies.</p>
         </div>
 
         <p>If you have any questions or wish to contact the data controller, please reach out to: <a href="mailto:contact-email-placeholder" style="color: var(--primary); font-weight: 600;"><span class="contact-email"></span></a>.</p>
@@ -512,14 +394,14 @@
       <div style="display: flex; flex-direction: column; gap: 1rem;">
         <div>
           <div style="color: white; font-weight: 700; font-size: 1.25rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
-            <span id="footerLogoIcon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-1.854.304-3.5 1.844-3.5 3.75 0 2.144 1.832 3.75 4 3.75 1.5 0 2.5-.75 3-1.75Z"/><path d="M14 5.172c0-1.39 1.577-2.493 3.5-2.172 1.854.304 3.5 1.844 3.5 3.75 0 2.144-1.832 3.75-4 3.75-1.5 0-2.5-.75-3-1.75Z"/><path d="M12 12c-2.5 0-5 2-5 5.5 0 2.5 2 4.5 5 4.5s5-2 5-4.5c0-3.5-2.5-5.5-5-5.5Z"/></svg></span>
+            <span id="footerLogoIcon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-1.854.304-3.5 1.844-3.5 3.75 0 2.144 1.832 3.75 4 3.75 1.5 0 2.5-.75 3-1.75Z"/><path d="M14 5.172c0-1.39 1.577-2.493 3.5-2.172 1.854.304 3.5 1.844 3.5 3.75 0 2.144-1.832 3.75-4 3.75-1.5 0-2.5-.75-3-1.75Z"/><path d="M12 12c-2.5 0-5 2-5 5.5 0 2.5 2 4.5 5 4.5s5-2 5-4.5c0-3.5-2.5-5.5-5-5.5Z"/></svg></span>
             <span class="site-name"></span>
           </div>
           <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.5;">Independent veterinary price tracking and consumer cost guides across the United Kingdom.</p>
         </div>
-        <div style="background: rgba(15, 118, 110, 0.1); border-left: 3px solid var(--primary); padding: 0.75rem 1rem; border-radius: 0 0.5rem 0.5rem 0;">
+        <div id="footerTintBox" style="background: rgba(15, 118, 110, 0.1); border-left: 3px solid var(--primary); padding: 0.75rem 1rem; border-radius: 0 0.5rem 0.5rem 0;">
           <strong style="color: white; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Medical Disclaimer</strong>
-          <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.4;">We provide financial estimates, not clinical diagnoses. Always consult an RCVS-registered veterinary surgeon for medical advice.</p>
+          <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.4;">We provide financial estimates, not clinical diagnoses. Always consult an RCVS-registered veterinary surgeon for professional medical advice.</p>
         </div>
       </div>
 
@@ -543,7 +425,7 @@
 
       <!-- Column 4: Compliance & Contact -->
       <div>
-        <div class="footer-col-title">Operator details</div>
+        <div class="footer-col-title">Operator Details</div>
         <ul class="footer-links">
           <li style="color: #94a3b8;"><span class="operator-name"></span></li>
           <li style="color: #94a3b8;">United Kingdom</li>
@@ -556,7 +438,7 @@
     
     <div class="container">
       <div style="border-top: 1px solid #1e293b; padding-top: 1.5rem; font-size: 0.8rem; color: #64748b; text-align: center; display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
-        <div>&copy; <span id="currentYear"></span> <span class="operator-name"></span>. All rights reserved.</div>
+        <div>&copy; <span id="currentYear"></span> <span class="operator-name"></span>. All rights reserved. Prices last reviewed: October 2026. Methodology: Based on UK regional overhead surveys and statutory 20% VAT.</div>
         <div>Prices include 20% UK statutory VAT. Independent average price guides.</div>
       </div>
     </div>
@@ -565,7 +447,7 @@
   <!-- PECR Cookie Banner -->
   <div id="cookieBanner" class="cookie-banner" style="display: none;">
     <div class="cookie-text">
-      We use client-side storage solely to remember your postcode and display preferences. No personal or location data is tracked or sold. 
+      We use client-side browser storage solely to remember your postcode and preferences. No personal or location data is tracked or sold. 
       <a href="#privacy" onclick="openPrivacyModal(event)" style="color: white; text-decoration: underline; font-weight: 600;">Read our privacy standards.</a>
     </div>
     <button onclick="dismissCookies()" class="cookie-btn">Got it</button>
@@ -573,21 +455,37 @@
 
   <script src="config.js"></script>
   <script>
+    // Safeguard check if config.js fails to load
+    if (typeof window.CANINE_CONFIG === 'undefined') {
+      document.body.innerHTML = `
+        <div style="max-width: 600px; margin: 100px auto; padding: 2rem; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 12px; text-align: center; font-family: sans-serif;">
+          <h2 style="color: #9f1239; margin-bottom: 1rem;">Configuration Error</h2>
+          <p style="color: #475569; line-height: 1.5;">The configuration file (<code>config.js</code>) failed to load or is missing. Please ensure <code>config.js</code> is uploaded in the same directory as <code>index.html</code>.</p>
+        </div>
+      `;
+      throw new Error("CANINE_CONFIG missing");
+    }
+
     const procedures = window.CANINE_CONFIG.procedures;
+    const postcodeMultipliers = window.CANINE_CONFIG.postcodeMultipliers;
 
     let currentSelectedProcedure = null;
     let lastFocusedElement = null;
 
-    const postcodeMultipliers = window.CANINE_CONFIG.postcodeMultipliers;
-
     function toggleMobileMenu() {
       const menu = document.getElementById('mobileMenu');
-      menu.classList.toggle('active');
+      const btn = document.getElementById('menuToggleBtn');
+      const isActive = menu.classList.toggle('active');
+      btn.setAttribute('aria-expanded', isActive);
     }
 
     function selectWeight(val, btn) {
-      document.querySelectorAll('.weight-list-item').forEach(card => card.classList.remove('active'));
+      document.querySelectorAll('.weight-list-item').forEach(card => {
+        card.classList.remove('active');
+        card.setAttribute('aria-checked', 'false');
+      });
       btn.classList.add('active');
+      btn.setAttribute('aria-checked', 'true');
       document.getElementById('weightSelect').value = val;
       localStorage.setItem('caninecost_weight', val);
       updateEstimates();
@@ -622,7 +520,7 @@
 
       const categoryLayout = [
         { id: 'EMERGENCY', title: '🚨 Emergency & Life-Threatening' },
-        { id: 'ORTHOPEDIC', title: '🦴 Orthopedic & Joints' },
+        { id: 'ORTHOPAEDIC', title: '🦴 Orthopaedic & Joints' },
         { id: 'SOFT_TISSUE', title: '🫁 Soft Tissue & Abdominal' },
         { id: 'OPHTHALMIC', title: '👁️ Eye Surgery' },
         { id: 'DENTAL', title: '🦷 Dental & Oral' }
@@ -645,22 +543,34 @@
           grid.className = "procedure-grid";
 
           catProcedures.forEach(p => {
-            const finalPrice = Math.round(p.basePrice * mult * weightMult);
+            // Compute total accurately from rounded line items if present, or fallback to base calculation
+            let finalPrice = 0;
+            if (p.lineItems && p.lineItems.length > 0) {
+              finalPrice = p.lineItems.reduce((sum, li) => {
+                // Fixed overhead items (e.g. consultation/admin) don't scale with weight if specified, otherwise scale normally
+                const isFixed = li.fixed === true;
+                const effectiveMultiplier = isFixed ? mult : (mult * weightMult);
+                return sum + Math.round(li.price * effectiveMultiplier);
+              }, 0);
+            } else {
+              finalPrice = Math.round(p.basePrice * mult * weightMult);
+            }
+
             const lowRange = Math.round(finalPrice * 0.85);
             const highRange = Math.round(finalPrice * 1.20);
 
-            const card = document.createElement("div");
+            const card = document.createElement("button");
+            card.type = "button";
             card.className = "card";
-            card.style.display = "flex";
-            card.style.flexDirection = "column";
-            card.style.justifyContent = "space-between";
-            card.style.cursor = "pointer";
+            card.style.cssText = "display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; text-align: left; width: 100%; font-family: inherit; transition: transform 0.15s ease, border-color 0.15s ease;";
+            card.onmouseover = () => card.style.borderColor = "var(--primary)";
+            card.onmouseout = () => card.style.borderColor = "var(--slate-200)";
             card.onclick = () => openProcedureModal(p.id);
 
             card.innerHTML = `
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                  <span class="badge ${p.emergency ? 'badge-rose' : 'badge-teal'}">${p.emergency ? 'Emergency' : p.category}</span>
+                  <span class="badge ${p.emergency ? 'badge-rose' : 'badge-teal'}">${p.emergency ? 'Emergency' : p.category.replace('_', ' ')}</span>
                   <span style="font-size: 0.75rem; color: var(--slate-700);">VAT Inc.</span>
                 </div>
                 <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--slate-900); margin-bottom: 0.5rem; line-height: 1.4;">${p.name}</h3>
@@ -669,7 +579,7 @@
               <div>
                 <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 0.25rem;">£${finalPrice.toLocaleString()}</div>
                 <div style="font-size: 0.8rem; color: var(--slate-700); margin-bottom: 1rem;">Typical spread: £${lowRange.toLocaleString()} – £${highRange.toLocaleString()}</div>
-                <button class="btn btn-outline" style="width: 100%; font-size: 0.85rem; padding: 0.5rem;">View Itemised Bill & Details</button>
+                <span class="btn btn-outline" style="width: 100%; font-size: 0.85rem; padding: 0.5rem; pointer-events: none;">View Itemised Bill & Details</span>
               </div>
             `;
             grid.appendChild(card);
@@ -694,6 +604,7 @@
 
     function openModal(modalId) {
       lastFocusedElement = document.activeElement;
+      document.body.style.overflow = 'hidden';
       const modal = document.getElementById(modalId);
       modal.classList.add("active");
       setTimeout(() => {
@@ -704,28 +615,33 @@
 
     function closeModal(modalId) {
       document.getElementById(modalId).classList.remove("active");
+      document.body.style.overflow = '';
       if (lastFocusedElement) lastFocusedElement.focus();
     }
 
-    // Dynamic Affiliate Card Generator (Clean Button Labels)
     function getAffiliateCardHTML(procedure) {
-  return `
-    <div class="recommendation-card" style="border-color: var(--primary);">
-      <div class="card-layout">
-        <div class="card-body">
-          <div style="font-size: 0.75rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Book A Consultation</div>
-          <h4 style="margin: 0 0 8px 0; color: #0f172a; font-size: 1.125rem;">Need to book this treatment for your dog?</h4>
-          <p style="margin: 0; color: #475569; font-size: 0.9375rem; line-height: 1.5;">Contact our clinic directly to schedule an assessment.</p>
+      const isEmergency = procedure.emergency === true;
+      const actionText = isEmergency ? "Call Nearest 24/7 Hospital" : "Book Now";
+      const actionUrl = isEmergency ? `tel:${window.CANINE_CONFIG.branding. emergencyPhone || '999'}` : window.CANINE_CONFIG.branding.bookingUrl;
+      const subtitleText = isEmergency ? "For life-threatening emergencies, do not wait for online estimates. Speak to emergency veterinary triage immediately." : "Contact our clinic directly to schedule an assessment.";
+
+      return `
+        <div class="recommendation-card" style="border-color: var(--primary);">
+          <div class="card-layout">
+            <div class="card-body">
+              <div style="font-size: 0.75rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">${isEmergency ? 'Urgent Triage Action' : 'Book A Consultation'}</div>
+              <h4 style="margin: 0 0 8px 0; color: #0f172a; font-size: 1.125rem;">${isEmergency ? 'Need immediate emergency care?' : 'Need to book this treatment for your dog?'}</h4>
+              <p style="margin: 0; color: #475569; font-size: 0.9375rem; line-height: 1.5;">${subtitleText}</p>
+            </div>
+            <div class="card-action">
+              <a href="${actionUrl}" class="cta-button" style="background-color: ${isEmergency ? 'var(--rose-650)' : 'var(--primary)'}; display: inline-block; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; font-size: 0.9375rem; white-space: nowrap; transition: filter 0.2s ease;">
+                ${actionText}
+              </a>
+            </div>
+          </div>
         </div>
-        <div class="card-action">
-          <a href="${window.CANINE_CONFIG.branding.bookingUrl}" class="cta-button" style="background-color: var(--primary); display: inline-block; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; font-size: 0.9375rem; white-space: nowrap; transition: filter 0.2s ease;">
-            Book Now
-          </a>
-        </div>
-      </div>
-    </div>
-  `;
-}
+      `;
+    }
 
     function openProcedureModal(id) {
       const p = procedures.find(item => item.id === id);
@@ -735,25 +651,18 @@
       const postcode = document.getElementById("postcodeSelect").value;
       const mult = postcodeMultipliers[postcode] || 1.0;
       const weightMult = parseFloat(document.getElementById("weightSelect").value);
-      const finalPrice = Math.round(p.basePrice * mult * weightMult);
-      const lowRange = Math.round(finalPrice * 0.85);
-      const highRange = Math.round(finalPrice * 1.20);
 
-      document.getElementById("modalCategoryBadge").innerText = p.emergency ? 'Life-Threatening Emergency' : p.category.replace(/_/g, ' ');
-      document.getElementById("modalCategoryBadge").className = p.emergency ? 'badge badge-rose' : 'badge badge-teal';
-      document.getElementById("modalTitle").innerText = p.name;
-      document.getElementById("modalPrice").innerText = `£${finalPrice.toLocaleString()}`;
-      document.getElementById("modalRange").innerText = `Expected range across UK clinics: £${lowRange.toLocaleString()} – £${highRange.toLocaleString()}`;
-      document.getElementById("modalDesc").innerText = `${p.desc} Recovery expectation: ${p.recovery}`;
-
-      const emergencyWarning = document.getElementById("modalEmergencyWarning");
-      emergencyWarning.style.display = p.emergency ? "block" : "none";
-
+      // Compute total accurately from rounded line items
+      let finalPrice = 0;
       const lineItemsContainer = document.getElementById("modalLineItems");
       lineItemsContainer.innerHTML = "";
 
       p.lineItems.forEach((li, idx) => {
-        const scaledLiPrice = Math.round(li.price * mult * weightMult);
+        const isFixed = li.fixed === true;
+        const effectiveMultiplier = isFixed ? mult : (mult * weightMult);
+        const scaledLiPrice = Math.round(li.price * effectiveMultiplier);
+        finalPrice += scaledLiPrice;
+
         const row = document.createElement("div");
         row.style.display = "flex";
         row.style.justifyContent = "space-between";
@@ -768,6 +677,19 @@
         lineItemsContainer.appendChild(row);
       });
 
+      const lowRange = Math.round(finalPrice * 0.85);
+      const highRange = Math.round(finalPrice * 1.20);
+
+      document.getElementById("modalCategoryBadge").innerText = p.emergency ? 'Life-Threatening Emergency' : p.category.replace(/_/g, ' ');
+      document.getElementById("modalCategoryBadge").className = p.emergency ? 'badge badge-rose' : 'badge badge-teal';
+      document.getElementById("modalTitle").innerText = p.name;
+      document.getElementById("modalPrice").innerText = `£${finalPrice.toLocaleString()}`;
+      document.getElementById("modalRange").innerText = `Expected range across UK clinics: £${lowRange.toLocaleString()} – £${highRange.toLocaleString()}`;
+      document.getElementById("modalDesc").innerText = `${p.desc} Recovery expectation: ${p.recovery}`;
+
+      const emergencyWarning = document.getElementById("modalEmergencyWarning");
+      emergencyWarning.style.display = p.emergency ? "block" : "none";
+
       document.getElementById("modalAffiliateSlot").innerHTML = getAffiliateCardHTML(p);
 
       openModal('detailModal');
@@ -780,20 +702,45 @@
       if (!localStorage.getItem("caninecost_cookie_dismissed")) {
         document.getElementById("cookieBanner").style.display = "flex";
       }
+      
+      // Populate Postcode dropdown dynamically from config
+      const postcodeSelect = document.getElementById("postcodeSelect");
+      postcodeSelect.innerHTML = "";
+      const sortedKeys = Object.keys(postcodeMultipliers).sort();
+      sortedKeys.forEach(code => {
+        const opt = document.createElement("option");
+        opt.value = code;
+        opt.textContent = `${code} - Postcode Area (${postcodeMultipliers[code]}x factor)`;
+        if (code === "GL") opt.selected = true;
+        postcodeSelect.appendChild(opt);
+      });
+
       const savedPostcode = localStorage.getItem("caninecost_postcode");
-      if (savedPostcode) {
-        const select = document.getElementById("postcodeSelect");
-        if (select.querySelector(`option[value="${savedPostcode}"]`)) select.value = savedPostcode;
+      if (savedPostcode && postcodeSelect.querySelector(`option[value="${savedPostcode}"]`)) {
+        postcodeSelect.value = savedPostcode;
       }
+
       const savedWeight = localStorage.getItem("caninecost_weight");
       if (savedWeight) {
         document.getElementById("weightSelect").value = savedWeight;
         document.querySelectorAll('.weight-list-item').forEach(btn => {
           if (btn.getAttribute('data-val') === savedWeight) {
-            document.querySelectorAll('.weight-list-item').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.weight-list-item').forEach(c => {
+              c.classList.remove('active');
+              c.setAttribute('aria-checked', 'false');
+            });
             btn.classList.add('active');
+            btn.setAttribute('aria-checked', 'true');
           }
         });
+      }
+
+      // Dynamically generate counts for header badges
+      const postcodeCount = sortedKeys.length;
+      const procedureCount = procedures.length;
+      const heroBadge = document.getElementById('heroMetaBadge');
+      if (heroBadge) {
+        heroBadge.innerHTML = `${postcodeCount} Postcodes &bull; ${procedureCount} Procedures &bull; 20% VAT Inclusive`;
       }
     }
 
@@ -809,6 +756,7 @@
         closeModal('charityAidModal');
         closeModal('privacyModal');
         document.getElementById('mobileMenu').classList.remove('active');
+        document.getElementById('menuToggleBtn').setAttribute('aria-expanded', 'false');
       }
       if (e.key === 'Tab' && activeModal) {
         const focusable = activeModal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
@@ -824,62 +772,66 @@
     });
 
     window.addEventListener('DOMContentLoaded', () => {
+      // Apply branding from config
+      document.querySelectorAll('.operator-name').forEach(el => el.textContent = window.CANINE_CONFIG.branding.operatorName);
+      document.querySelectorAll('.contact-email').forEach(el => el.textContent = window.CANINE_CONFIG.branding.contactEmail);
+      document.querySelectorAll('a[href="mailto:contact-email-placeholder"]').forEach(el => el.href = "mailto:" + window.CANINE_CONFIG.branding.contactEmail);
+      document.querySelectorAll('.site-name').forEach(el => el.textContent = window.CANINE_CONFIG.branding.siteName);
+      document.title = window.CANINE_CONFIG.branding.siteName + " | " + window.CANINE_CONFIG.branding.tagline;
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
       
-    // Apply branding from config
-    document.querySelectorAll('.operator-name').forEach(el => el.textContent = window.CANINE_CONFIG.branding.operatorName);
-    document.querySelectorAll('.contact-email').forEach(el => el.textContent = window.CANINE_CONFIG.branding.contactEmail);
-    document.querySelectorAll('a[href="mailto:contact-email-placeholder"]').forEach(el => el.href = "mailto:" + window.CANINE_CONFIG.branding.contactEmail);
-    document.querySelectorAll('.site-name').forEach(el => el.textContent = window.CANINE_CONFIG.branding.siteName);
-    document.title = window.CANINE_CONFIG.branding.siteName + " | " + window.CANINE_CONFIG.branding.tagline;
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-    const metaDesc = document.getElementById('metaDesc');
-    if (metaDesc) metaDesc.content = window.CANINE_CONFIG.branding.tagline || "";
+      const metaDesc = document.getElementById('metaDesc');
+      if (metaDesc) metaDesc.content = window.CANINE_CONFIG.branding.tagline || "";
 
-    if (window.CANINE_CONFIG.branding.logoUrl) {
-      const logoImg = `<img src="${window.CANINE_CONFIG.branding.logoUrl}" alt="${window.CANINE_CONFIG.branding.siteName} Logo" style="height: 24px; width: auto; max-width: 100%; object-fit: contain; display: block;">`;
-      const headerLogo = document.getElementById('headerLogoIcon');
-      const footerLogo = document.getElementById('footerLogoIcon');
-      if (headerLogo) headerLogo.innerHTML = logoImg;
-      if (footerLogo) footerLogo.innerHTML = logoImg;
-    }
-
-    // Apply brand colors
-    const root = document.documentElement;
-    if (window.CANINE_CONFIG.branding.primaryColor) {
-      root.style.setProperty('--primary', window.CANINE_CONFIG.branding.primaryColor);
-    }
-    if (window.CANINE_CONFIG.branding.primaryDark) {
-      root.style.setProperty('--primary-dark', window.CANINE_CONFIG.branding.primaryDark);
-    }
-    if (window.CANINE_CONFIG.branding.primaryLight) {
-      root.style.setProperty('--primary-light', window.CANINE_CONFIG.branding.primaryLight);
-    }
-    
-    // Inject schema.org
-    const schema = {
-      "@context": "https://schema.org",
-      "@type": "MedicalWebPage",
-      "name": window.CANINE_CONFIG.branding.siteName + " Veterinary Cost Estimator",
-      "description": window.CANINE_CONFIG.branding.tagline,
-      "about": {
-        "@type": "MedicalCondition",
-        "name": "Canine Veterinary Procedures"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": window.CANINE_CONFIG.branding.operatorName
+      if (window.CANINE_CONFIG.branding.logoUrl) {
+        const logoImg = `<img src="${window.CANINE_CONFIG.branding.logoUrl}" alt="${window.CANINE_CONFIG.branding.siteName} Logo" style="height: 24px; width: auto; max-width: 100%; object-fit: contain; display: block;">`;
+        const headerLogo = document.getElementById('headerLogoIcon');
+        const footerLogo = document.getElementById('footerLogoIcon');
+        if (headerLogo) headerLogo.innerHTML = logoImg;
+        if (footerLogo) footerLogo.innerHTML = logoImg;
       }
-    };
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.text = JSON.stringify(schema);
-    document.head.appendChild(script);
-    
-    // Emergency Banner
-    const bannerTxt = document.querySelector('.emergency-banner span:nth-of-type(1)');
-    if (bannerTxt && window.CANINE_CONFIG.branding.emergencyBannerText) {
-        bannerTxt.textContent = window.CANINE_CONFIG.branding.emergencyBannerText;
-    }
+
+      // Apply brand colors & dynamic footer tint
+      const root = document.documentElement;
+      if (window.CANINE_CONFIG.branding.primaryColor) {
+        root.style.setProperty('--primary', window.CANINE_CONFIG.branding.primaryColor);
+        const footerTint = document.getElementById('footerTintBox');
+        if (footerTint) {
+          footerTint.style.background = `color-mix(in srgb, ${window.CANINE_CONFIG.branding.primaryColor} 10%, transparent)`;
+        }
+      }
+      if (window.CANINE_CONFIG.branding.primaryDark) {
+        root.style.setProperty('--primary-dark', window.CANINE_CONFIG.branding.primaryDark);
+      }
+      if (window.CANINE_CONFIG.branding.primaryLight) {
+        root.style.setProperty('--primary-light', window.CANINE_CONFIG.branding.primaryLight);
+      }
+      
+      // Inject correct Schema.org structured data (MedicalWebPage / MedicalProcedure)
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "MedicalWebPage",
+        "name": window.CANINE_CONFIG.branding.siteName + " Veterinary Cost Estimator",
+        "description": window.CANINE_CONFIG.branding.tagline,
+        "about": {
+          "@type": "MedicalProcedure",
+          "name": "Canine Surgical and Veterinary Procedures"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": window.CANINE_CONFIG.branding.operatorName
+        }
+      };
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.text = JSON.stringify(schema);
+      document.head.appendChild(script);
+      
+      // Emergency Banner text override
+      const bannerTxt = document.querySelector('.emergency-banner span:nth-of-type(1)');
+      if (bannerTxt && window.CANINE_CONFIG.branding.emergencyBannerText) {
+          bannerTxt.innerHTML = window.CANINE_CONFIG.branding.emergencyBannerText;
+      }
 
       checkCookies();
       renderProcedures();
