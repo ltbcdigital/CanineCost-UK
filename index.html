@@ -565,10 +565,10 @@
         const filterCat = document.getElementById("categoryFilter").value;
         const searchTxt = document.getElementById("searchBox").value.toLowerCase();
         
-        // Default to Gloucester (GL) baseline if no postcode is selected yet so cards show immediately
+        // Default to Birmingham (B) baseline if no postcode is selected yet so cards show immediately
         let postcodeKey = document.getElementById("postcodeSelect").value;
         if (!postcodeKey) {
-          postcodeKey = "GL";
+          postcodeKey = "B";
         }
 
         mainContainer.innerHTML = "";
@@ -733,7 +733,7 @@
         if (!p) return;
         currentSelectedProcedure = p;
 
-        const postcodeKey = document.getElementById("postcodeSelect").value || "GL";
+        const postcodeKey = document.getElementById("postcodeSelect").value || "B";
         const postcodeObj = postcodeData[postcodeKey] || { mult: 1.0, vat: true };
         const mult = postcodeObj.mult;
         const weightMult = parseFloat(document.getElementById("weightSelect").value);
