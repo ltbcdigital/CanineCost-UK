@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veterinary Cost Estimator</title>
+  <meta name="description" id="metaDesc" content="">
+    
+  
+
+  <style>
+    :root {
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --primary-light: #f0fdf4;
+      --accent: #f59e0b;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-700: #334155;
+      --slate-900: #0f172a;
+      --rose-650: #e11d48;
+      --rose-50: #fff1f2;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; }
+    
+    body { 
+      background-color: var(--slate-50); 
+      color: var(--slate-900); 
+      line-height: 1.5; 
+      -webkit-font-smoothing: antialiased; 
+      overflow-x: hidden; 
+      accent-color: var(--primary);
+    }
+
+    ::selection { background-color: rgba(15, 118, 110, 0.25); color: var(--slate-900); }
+    ::-moz-selection { background-color: rgba(15, 118, 110, 0.25); color: var(--slate-900); }
+
+    .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+    @media (min-width: 640px) { .container { padding: 0 1.5rem; } }
+    
+    header { background: white; border-bottom: 1px solid var(--slate-200); position: sticky; top: 0; z-index: 40; }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 4rem; }
+    .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: var(--slate-900); font-weight: 700; font-size: 1.25rem; }
+    .logo-icon { background: var(--primary); color: white; padding: 0.5rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; }
+    
+    .nav-links { display: none; align-items: center; gap: 1.5rem; }
+    @media (min-width: 768px) { .nav-links { display: flex; } }
+    .nav-link { color: var(--slate-700); text-decoration: none; font-size: 0.95rem; font-weight: 500; transition: color 0.15s; }
+    .nav-link:hover { color: var(--primary); }
+
+    .mobile-menu-btn { display: flex; align-items: center; justify-content: center; background: none; border: none; color: var(--slate-900); cursor: pointer; padding: 0.5rem; }
+    @media (min-width: 768px) { .mobile-menu-btn { display: none; } }
+    .mobile-menu { display: none; flex-direction: column; gap: 1rem; padding: 1.5rem 1rem; background: white; border-bottom: 1px solid var(--slate-200); position: absolute; top: 4rem; left: 0; right: 0; z-index: 30; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+    .mobile-menu.active { display: flex; animation: slideDown 0.2s ease-out forwards; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.625rem 1.25rem; font-weight: 600; font-size: 0.95rem; border-radius: 0.75rem; cursor: pointer; transition: all 0.15s; border: none; text-decoration: none; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-outline { background: white; color: var(--slate-700); border: 1px solid var(--slate-200); }
+    .btn-outline:hover { background: var(--slate-100); color: var(--slate-900); }
+
+    .badge { display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+    .badge-teal { background: var(--primary-light); color: var(--primary-dark); }
+    .badge-rose { background: var(--rose-50); color: var(--rose-650); }
+
+    .emergency-banner { background: var(--rose-50); border-bottom: 1px solid #fecdd3; color: #9f1239; padding: 0.75rem 1rem; font-size: 0.85rem; font-weight: 500; text-align: center; }
+    .emergency-banner strong { font-weight: 700; }
+
+    .hero { background: white; padding: clamp(2rem, 5vw, 4rem) 0; border-bottom: 1px solid var(--slate-200); }
+    .hero-title { font-size: clamp(1.75rem, 4vw, 3rem); font-weight: 800; color: var(--slate-900); line-height: 1.2; margin-bottom: 1rem; }
+    .hero-subtitle { font-size: clamp(1rem, 1.5vw, 1.15rem); color: var(--slate-700); max-width: 42rem; margin-bottom: 2rem; }
+
+    .card { background: white; border: 1px solid var(--slate-200); border-radius: 1rem; padding: 1.5rem; box-shadow: 0 1px 3px 0 rgba(0,0,0,0.05); }
+    
+    .dark-panel { background-color: var(--slate-900); border-color: #1e293b; }
+    .dark-panel label { color: #94a3b8; }
+    .dark-panel input, .dark-panel select { background-color: #1e293b; border-color: #334155; color: white; }
+    .dark-panel input:focus, .dark-panel select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.25); }
+    .dark-panel .weight-list-item { background-color: #1e293b; border-color: #334155; }
+    .dark-panel .weight-list-item:hover { background-color: #334155; border-color: #475569; }
+    .dark-panel .weight-list-item.active { background-color: var(--primary-dark); border-color: var(--primary); box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.4); }
+    .dark-panel .w-title { color: white; }
+    .dark-panel .weight-list-item.active .w-title { color: white; }
+    .dark-panel .w-sub { color: #94a3b8; }
+    .dark-panel .weight-list-item.active .w-sub { color: #cbd5e1; }
+
+    select option:checked, select option:hover {
+      background: var(--primary) linear-gradient(0deg, var(--primary) 0%, var(--primary) 100%) !important;
+      color: white !important;
+    }
+
+    .config-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
+    .procedure-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+
+    .weight-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .weight-list-item { display: flex; justify-content: space-between; align-items: center; border-radius: 0.6rem; padding: 0.65rem 1rem; cursor: pointer; transition: all 0.15s ease; width: 100%; border-width: 1px; border-style: solid; }
+    .w-title { font-weight: 700; font-size: 0.95rem; text-align: left; }
+    .w-sub { font-size: 0.85rem; text-align: right; }
+
+    input, select { width: 100%; padding: 0.75rem 1rem; font-size: 1rem; border: 1px solid var(--slate-200); border-radius: 0.75rem; background: white; color: var(--slate-900); outline: none; transition: border-color 0.15s; }
+    input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.1); }
+    label { display: block; font-size: 0.875rem; font-weight: 600; color: var(--slate-700); margin-bottom: 0.5rem; }
+
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display: none; align-items: center; justify-content: center; z-index: 50; padding: 1rem; }
+    .modal-overlay.active { display: flex; }
+    .modal-card { background: white; width: 100%; max-width: 42rem; border-radius: 1rem; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
+
+    .footer { background: var(--slate-900); color: #94a3b8; padding: 4rem 0 2rem 0; font-size: 0.875rem; }
+    .footer a { color: #cbd5e1; text-decoration: none; transition: color 0.15s; }
+    .footer a:hover { color: white; }
+    .footer-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; margin-bottom: 3rem; }
+    @media (min-width: 768px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2rem; } }
+    .footer-col-title { color: white; font-weight: 600; font-size: 1rem; margin-bottom: 1rem; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
+    
+    .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; background: var(--slate-900); color: white; padding: 1rem; padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); z-index: 60; box-shadow: 0 -4px 12px rgba(0,0,0,0.25); display: flex; flex-direction: column; gap: 0.875rem; align-items: stretch; }
+    @media (min-width: 640px) { .cookie-banner { flex-direction: row; align-items: center; justify-content: space-between; padding: 1.25rem 2rem; } }
+    .cookie-text { font-size: 0.85rem; line-height: 1.4; color: #cbd5e1; }
+    @media (min-width: 640px) { .cookie-text { font-size: 0.9rem; max-width: 52rem; } }
+    .cookie-btn { width: 100%; background: white; color: var(--slate-900); padding: 0.625rem 1.25rem; font-size: 0.85rem; font-weight: 600; border-radius: 0.5rem; border: none; cursor: pointer; text-align: center; transition: background 0.15s; }
+    .cookie-btn:hover { background: var(--slate-100); }
+    @media (min-width: 640px) { .cookie-btn { width: auto; flex-shrink: 0; } }
+
+    /* New Affiliate Recommendation Card Styles */
+    .recommendation-card { position: relative; background: #ffffff; border: 2px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); margin-bottom: 1.5rem; transition: transform 0.2s ease, border-color 0.2s ease; }
+    .recommendation-card:hover { transform: translateY(-2px); border-color: #cbd5e1; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+    .disclosure-badge { position: absolute; top: -12px; right: 20px; background: #f1f5f9; color: #64748b; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 6px; border: 1px solid #e2e8f0; letter-spacing: 0.05em; text-transform: uppercase; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .card-layout { display: flex; align-items: center; gap: 1.5rem; justify-content: space-between; }
+    .card-body { flex: 1; }
+    .card-action { flex-shrink: 0; }
+    @media (max-width: 640px) {
+      .card-layout { flex-direction: column; align-items: stretch; gap: 1rem; }
+      .card-action a { display: block; text-align: center; width: 100%; }
+    }
+
+    @media print {
+      body { background: white !important; color: black !important; }
+      header, footer, .emergency-banner, #cookieBanner, .hero, #calculator, .modal-overlay:not(.active), button, .btn, .recommendation-card { display: none !important; }
+      .modal-overlay.active { position: static !important; background: none !important; backdrop-filter: none !important; padding: 0 !important; display: block !important; }
+      .modal-card { box-shadow: none !important; max-height: none !important; overflow: visible !important; width: 100% !important; max-width: 100% !important; padding: 0 !important; border: none !important; }
+      #modalLineItems { border: 1px solid #94a3b8 !important; }
+      .print-watermark { display: block !important; margin-top: 2rem; border-top: 2px solid #0f766e; padding-top: 1rem; font-size: 0.8rem; color: #334155; }
+    }
+    .print-watermark { display: none; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Emergency Triage Alert -->
+  <div class="emergency-banner" role="region" aria-label="Emergency warning">
+    <div class="container" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <span>Is your dog in a <strong>critical condition or facing a life-threatening emergency</strong>? <strong>Do not use this website to check prices</strong>. Call your nearest 24/7 emergency vet hospital straight away.</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav-inner">
+      <a href="#" class="logo">
+        <div id="headerLogoIcon" class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-1.854.304-3.5 1.844-3.5 3.75 0 2.144 1.832 3.75 4 3.75 1.5 0 2.5-.75 3-1.75Z"/><path d="M14 5.172c0-1.39 1.577-2.493 3.5-2.172 1.854.304 3.5 1.844 3.5 3.75 0 2.144-1.832 3.75-4 3.75-1.5 0-2.5-.75-3-1.75Z"/><path d="M12 12c-2.5 0-5 2-5 5.5 0 2.5 2 4.5 5 4.5s5-2 5-4.5c0-3.5-2.5-5.5-5-5.5Z"/></svg>
+        </div>
+        <span class="site-name"></span>
+      </a>
+      
+      <!-- Desktop Nav -->
+      <nav class="nav-links">
+        <a href="#calculator" class="nav-link">Cost Calculator</a>
+        <a href="#procedureGrid" class="nav-link">Procedure Index</a>
+        <a href="#hardship" class="nav-link" onclick="openCharityModal(event)">Benefits & Charity Care</a>
+      </nav>
+
+      <!-- Mobile Hamburger Button -->
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobileMenu" class="mobile-menu">
+      <a href="#calculator" class="nav-link" onclick="toggleMobileMenu()" style="font-size: 1.1rem; padding: 0.5rem 0;">Cost Calculator</a>
+      <a href="#procedureGrid" class="nav-link" onclick="toggleMobileMenu()" style="font-size: 1.1rem; padding: 0.5rem 0;">Procedure Index</a>
+      <a href="#hardship" class="nav-link" onclick="toggleMobileMenu(); openCharityModal(event)" style="font-size: 1.1rem; padding: 0.5rem 0;">Benefits & Charity Care</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div style="display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+        <span class="badge badge-teal">Independent UK Price Guide</span>
+        <span class="badge" style="background: var(--slate-100); color: var(--slate-700);">124 Postcodes &bull; 20% VAT Inclusive</span>
+      </div>
+      <h1 class="hero-title">Transparent UK Dog Surgery & Vet Cost Estimator</h1>
+      <p class="hero-subtitle">Compare realistic, itemised veterinary costs across the United Kingdom. Adjusted for dog weight, regional clinic overheads, and statutory VAT with zero hidden fees.</p>
+      
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="#calculator" class="btn btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+          Calculate Procedure Cost
+        </a>
+        <button onclick="openCharityModal(event)" class="btn btn-outline">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          Universal Credit & Charity Help
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Calculator Workspace -->
+  <main id="calculator" class="container" style="padding-top: 3rem; padding-bottom: 4rem;">
+    <!-- Dark Panel Configuration Box -->
+    <div class="card dark-panel" style="margin-bottom: 3rem;">
+      <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: white;">Configure Your Estimate</h2>
+      
+      <div class="config-grid" style="margin-bottom: 1.5rem;">
+        <div>
+          <label for="postcodeSelect">1. UK Postcode Area</label>
+          <select id="postcodeSelect" onchange="updateEstimates()">
+            <option value="AB">AB - Aberdeen</option>
+            <option value="AL">AL - St Albans</option>
+            <option value="B">B - Birmingham / West Midlands</option>
+            <option value="BA">BA - Bath</option>
+            <option value="BB">BB - Blackburn</option>
+            <option value="BD">BD - Bradford</option>
+            <option value="BH">BH - Bournemouth</option>
+            <option value="BL">BL - Bolton</option>
+            <option value="BN">BN - Brighton</option>
+            <option value="BR">BR - Bromley</option>
+            <option value="BS">BS - Bristol</option>
+            <option value="BT">BT - Belfast / Northern Ireland</option>
+            <option value="CA">CA - Carlisle</option>
+            <option value="CB">CB - Cambridge</option>
+            <option value="CF">CF - Cardiff / South Wales</option>
+            <option value="CH">CH - Chester</option>
+            <option value="CM">CM - Chelmsford</option>
+            <option value="CO">CO - Colchester</option>
+            <option value="CR">CR - Croydon</option>
+            <option value="CT">CT - Canterbury</option>
+            <option value="CV">CV - Coventry</option>
+            <option value="CW">CW - Crewe</option>
+            <option value="DA">DA - Dartford</option>
+            <option value="DD">DD - Dundee</option>
+            <option value="DE">DE - Derby</option>
+            <option value="DG">DG - Dumfries</option>
+            <option value="DH">DH - Durham</option>
+            <option value="DL">DL - Darlington</option>
+            <option value="DN">DN - Doncaster</option>
+            <option value="DT">DT - Dorchester</option>
+            <option value="E">E - East London</option>
+            <option value="EC">EC - Central London East</option>
+            <option value="EH">EH - Edinburgh</option>
+            <option value="EN">EN - Enfield</option>
+            <option value="EX">EX - Exeter</option>
+            <option value="FK">FK - Falkirk</option>
+            <option value="FY">FY - Blackpool</option>
+            <option value="G">G - Glasgow</option>
+            <option value="GL" selected>GL - Gloucester (Baseline)</option>
+            <option value="GU">GU - Guildford / South East</option>
+            <option value="GY">GY - Guernsey</option>
+            <option value="HA">HA - Harrow</option>
+            <option value="HD">HD - Huddersfield</option>
+            <option value="HG">HG - Harrogate</option>
+            <option value="HP">HP - Hemel Hempstead</option>
+            <option value="HR">HR - Hereford</option>
+            <option value="HS">HS - Outer Hebrides</option>
+            <option value="HU">HU - Hull</option>
+            <option value="HX">HX - Halifax</option>
+            <option value="IG">IG - Ilford</option>
+            <option value="IM">IM - Isle of Man</option>
+            <option value="IP">IP - Ipswich</option>
+            <option value="IV">IV - Inverness</option>
+            <option value="JE">JE - Jersey</option>
+            <option value="KA">KA - Kilmarnock</option>
+            <option value="KT">KT - Kingston upon Thames</option>
+            <option value="KW">KW - Kirkwall</option>
+            <option value="KY">KY - Kirkcaldy</option>
+            <option value="L">L - Liverpool</option>
+            <option value="LA">LA - Lancaster</option>
+            <option value="LD">LD - Llandrindod Wells</option>
+            <option value="LE">LE - Leicester</option>
+            <option value="LL">LL - Llandudno</option>
+            <option value="LS">LS - Leeds</option>
+            <option value="M">M - Manchester / North West</option>
+            <option value="ME">ME - Rochester / Medway</option>
+            <option value="MK">MK - Milton Keynes</option>
+            <option value="N">N - North London</option>
+            <option value="NE">NE - Newcastle upon Tyne</option>
+            <option value="NG">NG - Nottingham</option>
+            <option value="NN">NN - Northampton</option>
+            <option value="NP">NP - Newport</option>
+            <option value="NR">NR - Norwich</option>
+            <option value="NW">NW - North West London</option>
+            <option value="OL">OL - Oldham</option>
+            <option value="OX">OX - Oxford</option>
+            <option value="PA">PA - Paisley</option>
+            <option value="PH">PH - Perth</option>
+            <option value="PL">PL - Plymouth</option>
+            <option value="PO">PO - Portsmouth</option>
+            <option value="PR">PR - Preston</option>
+            <option value="RG">RG - Reading</option>
+            <option value="RH">RH - Redhill / Surrey</option>
+            <option value="RM">RM - Romford</option>
+            <option value="S">S - Sheffield</option>
+            <option value="SA">SA - Swansea</option>
+            <option value="SE">SE - South East London</option>
+            <option value="SG">SG - Stevenage</option>
+            <option value="SL">SL - Slough</option>
+            <option value="SM">SM - Sutton</option>
+            <option value="SN">SN - Swindon</option>
+            <option value="SO">SO - Southampton</option>
+            <option value="SP">SP - Salisbury</option>
+            <option value="SR">SR - Sunderland</option>
+            <option value="ST">ST - Stoke-on-Trent</option>
+            <option value="SW">SW - South West London</option>
+            <option value="SY">SY - Shrewsbury</option>
+            <option value="TA">TA - Taunton</option>
+            <option value="TD">TD - Galashiels</option>
+            <option value="TF">TF - Telford</option>
+            <option value="TN">TN - Tunbridge Wells</option>
+            <option value="TQ">TQ - Torquay</option>
+            <option value="TR">TR - Truro</option>
+            <option value="TS">TS - Cleveland</option>
+            <option value="TW">TW - Twickenham</option>
+            <option value="UB">UB - Uxbridge</option>
+            <option value="W">W - West London</option>
+            <option value="WC">WC - Central London West</option>
+            <option value="WF">WF - Wakefield</option>
+            <option value="WN">WN - Wigan</option>
+            <option value="WR">WR - Worcester</option>
+            <option value="WS">WS - Walsall</option>
+            <option value="WV">WV - Wolverhampton</option>
+            <option value="YO">YO - York</option>
+            <option value="ZE">ZE - Lerwick</option>
+          </select>
+        </div>
+        
+        <div>
+          <label>2. Dog Weight Class</label>
+          <div class="weight-list">
+            <button type="button" class="weight-list-item" data-val="0.8" onclick="selectWeight(0.8, this)">
+              <span class="w-title">Toy</span>
+              <span class="w-sub">&lt; 5kg</span>
+            </button>
+            <button type="button" class="weight-list-item active" data-val="1.0" onclick="selectWeight(1.0, this)">
+              <span class="w-title">Small / Med</span>
+              <span class="w-sub">5 – 20kg</span>
+            </button>
+            <button type="button" class="weight-list-item" data-val="1.3" onclick="selectWeight(1.3, this)">
+              <span class="w-title">Large</span>
+              <span class="w-sub">20 – 40kg</span>
+            </button>
+            <button type="button" class="weight-list-item" data-val="1.6" onclick="selectWeight(1.6, this)">
+              <span class="w-title">Giant</span>
+              <span class="w-sub">&gt; 40kg</span>
+            </button>
+          </div>
+          <input type="hidden" id="weightSelect" value="1.0">
+        </div>
+        
+        <div>
+          <label for="categoryFilter">3. Procedure Category</label>
+          <select id="categoryFilter" onchange="filterProcedures()">
+            <option value="ALL">All 26 Procedures</option>
+            <option value="ORTHOPEDIC">Orthopedic & Joints</option>
+            <option value="SOFT_TISSUE">Soft Tissue & Abdominal</option>
+            <option value="EMERGENCY">Emergency & Trauma</option>
+            <option value="OPHTHALMIC">Eye Surgery</option>
+            <option value="DENTAL">Dental & Oral</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label for="searchBox">Search Procedures</label>
+        <div style="position: relative;">
+          <input type="text" id="searchBox" placeholder="e.g. cruciate, bloat, teeth, eye..." oninput="filterProcedures()" style="padding-left: 2.75rem;">
+          <svg style="position: absolute; left: 0.875rem; top: 50%; transform: translateY(-50%); color: #64748b;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Procedure Grid Container -->
+    <div id="procedureGrid" style="margin-bottom: 4rem;">
+      <!-- Populated dynamically via JavaScript -->
+    </div>
+  </main>
+
+  <!-- Detailed Estimate & Itemised Bill Modal -->
+  <div id="detailModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card" style="padding: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; gap: 1rem;">
+        <div>
+          <span id="modalCategoryBadge" class="badge badge-teal" style="margin-bottom: 0.5rem;">Procedure</span>
+          <h3 id="modalTitle" style="font-size: 1.5rem; font-weight: 700; color: var(--slate-900);">Procedure Title</h3>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button onclick="closeModal('detailModal')" class="btn btn-outline" style="padding: 0.5rem 0.75rem;" aria-label="Close modal">✕</button>
+        </div>
+      </div>
+
+      <div id="modalEmergencyWarning" style="display: none; background: var(--rose-50); border: 1px solid #fecdd3; border-radius: 0.75rem; padding: 1rem; margin-bottom: 1.5rem; color: #9f1239; font-size: 0.9rem;">
+        <strong>Life-Threatening Emergency:</strong> If your dog is in a critical condition, do not delay treatment or wait for cost calculations. Contact a 24/7 veterinary hospital immediately.
+      </div>
+
+      <div style="background: var(--slate-50); border-radius: 0.75rem; padding: 1.25rem; margin-bottom: 1.5rem;">
+        <div style="font-size: 0.875rem; color: var(--slate-700); margin-bottom: 0.25rem;">Estimated Total (Includes 20% UK VAT)</div>
+        <div id="modalPrice" style="font-size: 2.25rem; font-weight: 800; color: var(--primary);">£0</div>
+        <div id="modalRange" style="font-size: 0.85rem; color: var(--slate-700); margin-top: 0.25rem;">Expected range: £0 - £0</div>
+      </div>
+
+      <p id="modalDesc" style="color: var(--slate-700); margin-bottom: 1.5rem; line-height: 1.6;"></p>
+
+      <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; color: var(--slate-900);">Itemised Bill Breakdown</h4>
+      <div id="modalLineItems" style="border: 1px solid var(--slate-200); border-radius: 0.75rem; overflow: hidden; margin-bottom: 1.5rem;">
+        <!-- Line items injected here -->
+      </div>
+
+      <div class="print-watermark">
+        <strong><span class="site-name"></span> Estimated Cost Breakdown</strong><br>
+        Operated by <span class="operator-name"></span>.<br>
+        Prices include 20% UK VAT. Independent average price guide for clinical comparison.
+      </div>
+
+      <!-- Dynamic Affiliate Callout Slot -->
+      <div id="modalAffiliateSlot"></div>
+
+      <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+        <button onclick="window.print()" class="btn btn-outline">Print / Save PDF</button>
+        <button onclick="closeModal('detailModal')" class="btn btn-primary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charity & Benefits Assistance Modal -->
+  <div id="charityAidModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="charityTitle">
+    <div class="modal-card" style="padding: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+        <div>
+          <span class="badge badge-teal" style="margin-bottom: 0.5rem;">Financial Hardship Guide</span>
+          <h3 id="charityTitle" style="font-size: 1.5rem; font-weight: 700; color: var(--slate-900);">UK Charity Veterinary Care & Benefits Support</h3>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button onclick="closeModal('charityAidModal')" class="btn btn-outline" style="padding: 0.5rem 0.75rem;" aria-label="Close modal">✕</button>
+        </div>
+      </div>
+
+      <div style="color: var(--slate-700); display: flex; flex-direction: column; gap: 1rem; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+        <p>Veterinary treatment in the UK is not covered by the NHS. However, if you receive government benefits or are on a low income, several major UK animal charities and statutory rules can help.</p>
+        
+        <div style="background: var(--slate-50); padding: 1rem; border-radius: 0.75rem; border-left: 4px solid var(--primary);">
+          <strong style="color: var(--slate-900);">1. The RCVS Statutory Duty of Care</strong>
+          <p style="margin-top: 0.25rem;">Under the Royal College of Veterinary Surgeons (RCVS) Code of Conduct, any private veterinary surgeon must provide initial emergency first aid and pain relief to an animal in critical distress, regardless of your immediate ability to pay upfront.</p>
+        </div>
+
+        <div style="background: var(--slate-50); padding: 1rem; border-radius: 0.75rem; border-left: 4px solid var(--primary);">
+          <strong style="color: var(--slate-900);">2. PDSA (People’s Dispensary for Sick Animals)</strong>
+          <p style="margin-top: 0.25rem;">If you receive means-tested benefits (such as Universal Credit, Housing Benefit, Council Tax Support, or Pension Credit) and live within a PDSA hospital catchment area, you may qualify for free or heavily subsidised hospital treatment.</p>
+        </div>
+
+        <div style="background: var(--slate-50); padding: 1rem; border-radius: 0.75rem; border-left: 4px solid var(--primary);">
+          <strong style="color: var(--slate-900);">3. RSPCA Branch Vouchers & Blue Cross</strong>
+          <p style="margin-top: 0.25rem;">Local independent RSPCA branches frequently issue emergency contribution vouchers (£50 to £250) paid directly to your private vet clinic. Blue Cross also operates dedicated animal hospitals in selected regions.</p>
+        </div>
+      </div>
+
+      <button onclick="closeModal('charityAidModal')" class="btn btn-primary" style="width: 100%;">Got It</button>
+    </div>
+  </div>
+
+  <!-- Privacy Standards Modal -->
+  <div id="privacyModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+    <div class="modal-card" style="padding: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+        <div>
+          <span class="badge badge-teal" style="margin-bottom: 0.5rem;">Privacy & Transparency</span>
+          <h3 id="privacyTitle" style="font-size: 1.5rem; font-weight: 700; color: var(--slate-900);">Privacy & Data Standards</h3>
+        </div>
+        <button onclick="closeModal('privacyModal')" class="btn btn-outline" style="padding: 0.5rem 0.75rem;" aria-label="Close modal">✕</button>
+      </div>
+      
+      <div style="color: var(--slate-700); display: flex; flex-direction: column; gap: 1rem; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.5rem;">
+        <p>At <strong><span class="operator-name"></span></strong>, we believe in strict data minimization. We do not track you across the internet, we do not sell your personal data, and we do not use invasive third-party analytics.</p>
+        
+        <div style="background: var(--slate-50); padding: 1rem; border-radius: 0.75rem; border-left: 4px solid var(--primary);">
+          <strong style="color: var(--slate-900);">Client-Side Storage (PECR Compliance)</strong>
+          <p style="margin-top: 0.25rem;">To make the calculator work seamlessly, this site uses functional local browser storage to remember your <strong>UK Postcode</strong> and <strong>Dog Weight Class</strong> between visits. This data never leaves your device and is never transmitted to our servers.</p>
+        </div>
+
+        <div style="background: var(--slate-50); padding: 1rem; border-radius: 0.75rem; border-left: 4px solid var(--primary);">
+          <strong style="color: var(--slate-900);">Third-Party Links</strong>
+          <p style="margin-top: 0.25rem;">If you click an external link (such as comparing pet insurance), you will be directed to a third-party website. Those platforms operate under their own privacy policies.</p>
+        </div>
+
+        <p>If you have any questions or wish to contact the data controller, please reach out to: <a href="mailto:contact-email-placeholder" style="color: var(--primary); font-weight: 600;"><span class="contact-email"></span></a>.</p>
+      </div>
+      
+      <button onclick="closeModal('privacyModal')" class="btn btn-primary" style="width: 100%;">Close</button>
+    </div>
+  </div>
+
+  <!-- Mega Footer -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      
+      <!-- Column 1: Branding & Medical Disclaimer -->
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        <div>
+          <div style="color: white; font-weight: 700; font-size: 1.25rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <span id="footerLogoIcon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5.172C10 3.782 8.423 2.679 6.5 3c-1.854.304-3.5 1.844-3.5 3.75 0 2.144 1.832 3.75 4 3.75 1.5 0 2.5-.75 3-1.75Z"/><path d="M14 5.172c0-1.39 1.577-2.493 3.5-2.172 1.854.304 3.5 1.844 3.5 3.75 0 2.144-1.832 3.75-4 3.75-1.5 0-2.5-.75-3-1.75Z"/><path d="M12 12c-2.5 0-5 2-5 5.5 0 2.5 2 4.5 5 4.5s5-2 5-4.5c0-3.5-2.5-5.5-5-5.5Z"/></svg></span>
+            <span class="site-name"></span>
+          </div>
+          <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.5;">Independent veterinary price tracking and consumer cost guides across the United Kingdom.</p>
+        </div>
+        <div style="background: rgba(15, 118, 110, 0.1); border-left: 3px solid var(--primary); padding: 0.75rem 1rem; border-radius: 0 0.5rem 0.5rem 0;">
+          <strong style="color: white; font-size: 0.85rem; display: block; margin-bottom: 0.25rem;">Medical Disclaimer</strong>
+          <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.4;">We provide financial estimates, not clinical diagnoses. Always consult an RCVS-registered veterinary surgeon for medical advice.</p>
+        </div>
+      </div>
+
+      <!-- Column 2: Platform Links -->
+      <div>
+        <div class="footer-col-title">Platform</div>
+        <ul class="footer-links">
+          <li><a href="#calculator">Cost Calculator</a></li>
+          <li><a href="#procedureGrid">Procedure Index</a></li>
+          <li><a href="#" onclick="document.getElementById('searchBox').focus(); return false;">Search Symptoms</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Support & Aid -->
+      <div>
+        <div class="footer-col-title">Hardship & Support</div>
+        <ul class="footer-links">
+          <li><a href="#hardship" onclick="openCharityModal(event)">Charity Care Guide</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Compliance & Contact -->
+      <div>
+        <div class="footer-col-title">Operator details</div>
+        <ul class="footer-links">
+          <li style="color: #94a3b8;"><span class="operator-name"></span></li>
+          <li style="color: #94a3b8;">United Kingdom</li>
+          <li><a href="#privacy" onclick="openPrivacyModal(event)">Privacy & Data Standards</a></li>
+          <li><a href="mailto:contact-email-placeholder" style="color: var(--primary-light);"><span class="contact-email"></span></a></li>
+        </ul>
+      </div>
+
+    </div>
+    
+    <div class="container">
+      <div style="border-top: 1px solid #1e293b; padding-top: 1.5rem; font-size: 0.8rem; color: #64748b; text-align: center; display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
+        <div>&copy; <span id="currentYear"></span> <span class="operator-name"></span>. All rights reserved.</div>
+        <div>Prices include 20% UK statutory VAT. Independent average price guides.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PECR Cookie Banner -->
+  <div id="cookieBanner" class="cookie-banner" style="display: none;">
+    <div class="cookie-text">
+      We use client-side storage solely to remember your postcode and display preferences. No personal or location data is tracked or sold. 
+      <a href="#privacy" onclick="openPrivacyModal(event)" style="color: white; text-decoration: underline; font-weight: 600;">Read our privacy standards.</a>
+    </div>
+    <button onclick="dismissCookies()" class="cookie-btn">Got it</button>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    const procedures = window.CANINE_CONFIG.procedures;
+
+    let currentSelectedProcedure = null;
+    let lastFocusedElement = null;
+
+    const postcodeMultipliers = window.CANINE_CONFIG.postcodeMultipliers;
+
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('active');
+    }
+
+    function selectWeight(val, btn) {
+      document.querySelectorAll('.weight-list-item').forEach(card => card.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('weightSelect').value = val;
+      localStorage.setItem('caninecost_weight', val);
+      updateEstimates();
+    }
+
+    function renderProcedures() {
+      const mainContainer = document.getElementById("procedureGrid");
+      const filterCat = document.getElementById("categoryFilter").value;
+      const searchTxt = document.getElementById("searchBox").value.toLowerCase();
+
+      mainContainer.innerHTML = "";
+
+      const filtered = procedures.filter(p => {
+        const matchCat = (filterCat === "ALL" || p.category === filterCat);
+        const matchSearch = p.name.toLowerCase().includes(searchTxt) || p.desc.toLowerCase().includes(searchTxt);
+        return matchCat && matchSearch;
+      });
+
+      if (filtered.length === 0) {
+        mainContainer.innerHTML = `
+          <div style="text-align: center; padding: 3rem; background: white; border-radius: 1rem; border: 1px solid var(--slate-200);">
+            <p style="font-weight: 600; color: var(--slate-700); margin-bottom: 1rem;">No matching procedures found.</p>
+            <button onclick="resetFilters()" class="btn btn-primary">Reset All Filters</button>
+          </div>
+        `;
+        return;
+      }
+
+      const postcode = document.getElementById("postcodeSelect").value;
+      const mult = postcodeMultipliers[postcode] || 1.0;
+      const weightMult = parseFloat(document.getElementById("weightSelect").value);
+
+      const categoryLayout = [
+        { id: 'EMERGENCY', title: '🚨 Emergency & Life-Threatening' },
+        { id: 'ORTHOPEDIC', title: '🦴 Orthopedic & Joints' },
+        { id: 'SOFT_TISSUE', title: '🫁 Soft Tissue & Abdominal' },
+        { id: 'OPHTHALMIC', title: '👁️ Eye Surgery' },
+        { id: 'DENTAL', title: '🦷 Dental & Oral' }
+      ];
+
+      categoryLayout.forEach(cat => {
+        const catProcedures = filtered.filter(p => p.category === cat.id);
+        
+        if (catProcedures.length > 0) {
+          const header = document.createElement("h3");
+          header.style.cssText = "font-size: 1.25rem; font-weight: 700; color: var(--slate-900); margin: 2.5rem 0 1.5rem 0; padding-bottom: 0.5rem; border-bottom: 2px solid var(--slate-200);";
+          if (cat.id === 'EMERGENCY') {
+            header.style.borderColor = "#fecdd3";
+            header.style.color = "#9f1239";
+          }
+          header.innerText = cat.title;
+          mainContainer.appendChild(header);
+
+          const grid = document.createElement("div");
+          grid.className = "procedure-grid";
+
+          catProcedures.forEach(p => {
+            const finalPrice = Math.round(p.basePrice * mult * weightMult);
+            const lowRange = Math.round(finalPrice * 0.85);
+            const highRange = Math.round(finalPrice * 1.20);
+
+            const card = document.createElement("div");
+            card.className = "card";
+            card.style.display = "flex";
+            card.style.flexDirection = "column";
+            card.style.justifyContent = "space-between";
+            card.style.cursor = "pointer";
+            card.onclick = () => openProcedureModal(p.id);
+
+            card.innerHTML = `
+              <div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                  <span class="badge ${p.emergency ? 'badge-rose' : 'badge-teal'}">${p.emergency ? 'Emergency' : p.category}</span>
+                  <span style="font-size: 0.75rem; color: var(--slate-700);">VAT Inc.</span>
+                </div>
+                <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--slate-900); margin-bottom: 0.5rem; line-height: 1.4;">${p.name}</h3>
+                <p style="font-size: 0.875rem; color: var(--slate-700); margin-bottom: 1.25rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${p.desc}</p>
+              </div>
+              <div>
+                <div style="font-size: 1.5rem; font-weight: 800; color: var(--primary); margin-bottom: 0.25rem;">£${finalPrice.toLocaleString()}</div>
+                <div style="font-size: 0.8rem; color: var(--slate-700); margin-bottom: 1rem;">Typical spread: £${lowRange.toLocaleString()} – £${highRange.toLocaleString()}</div>
+                <button class="btn btn-outline" style="width: 100%; font-size: 0.85rem; padding: 0.5rem;">View Itemised Bill & Details</button>
+              </div>
+            `;
+            grid.appendChild(card);
+          });
+          mainContainer.appendChild(grid);
+        }
+      });
+    }
+
+    function updateEstimates() {
+      localStorage.setItem('caninecost_postcode', document.getElementById("postcodeSelect").value);
+      localStorage.setItem('caninecost_weight', document.getElementById("weightSelect").value);
+      renderProcedures();
+    }
+
+    function filterProcedures() { renderProcedures(); }
+    function resetFilters() {
+      document.getElementById("categoryFilter").value = "ALL";
+      document.getElementById("searchBox").value = "";
+      renderProcedures();
+    }
+
+    function openModal(modalId) {
+      lastFocusedElement = document.activeElement;
+      const modal = document.getElementById(modalId);
+      modal.classList.add("active");
+      setTimeout(() => {
+        const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (focusable.length > 0) focusable[0].focus();
+      }, 50);
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove("active");
+      if (lastFocusedElement) lastFocusedElement.focus();
+    }
+
+    // Dynamic Affiliate Card Generator (Clean Button Labels)
+    function getAffiliateCardHTML(procedure) {
+  return `
+    <div class="recommendation-card" style="border-color: var(--primary);">
+      <div class="card-layout">
+        <div class="card-body">
+          <div style="font-size: 0.75rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.25rem;">Book A Consultation</div>
+          <h4 style="margin: 0 0 8px 0; color: #0f172a; font-size: 1.125rem;">Need to book this treatment for your dog?</h4>
+          <p style="margin: 0; color: #475569; font-size: 0.9375rem; line-height: 1.5;">Contact our clinic directly to schedule an assessment.</p>
+        </div>
+        <div class="card-action">
+          <a href="${window.CANINE_CONFIG.branding.bookingUrl}" class="cta-button" style="background-color: var(--primary); display: inline-block; color: white; text-decoration: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; font-size: 0.9375rem; white-space: nowrap; transition: filter 0.2s ease;">
+            Book Now
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+    function openProcedureModal(id) {
+      const p = procedures.find(item => item.id === id);
+      if (!p) return;
+      currentSelectedProcedure = p;
+
+      const postcode = document.getElementById("postcodeSelect").value;
+      const mult = postcodeMultipliers[postcode] || 1.0;
+      const weightMult = parseFloat(document.getElementById("weightSelect").value);
+      const finalPrice = Math.round(p.basePrice * mult * weightMult);
+      const lowRange = Math.round(finalPrice * 0.85);
+      const highRange = Math.round(finalPrice * 1.20);
+
+      document.getElementById("modalCategoryBadge").innerText = p.emergency ? 'Life-Threatening Emergency' : p.category.replace(/_/g, ' ');
+      document.getElementById("modalCategoryBadge").className = p.emergency ? 'badge badge-rose' : 'badge badge-teal';
+      document.getElementById("modalTitle").innerText = p.name;
+      document.getElementById("modalPrice").innerText = `£${finalPrice.toLocaleString()}`;
+      document.getElementById("modalRange").innerText = `Expected range across UK clinics: £${lowRange.toLocaleString()} – £${highRange.toLocaleString()}`;
+      document.getElementById("modalDesc").innerText = `${p.desc} Recovery expectation: ${p.recovery}`;
+
+      const emergencyWarning = document.getElementById("modalEmergencyWarning");
+      emergencyWarning.style.display = p.emergency ? "block" : "none";
+
+      const lineItemsContainer = document.getElementById("modalLineItems");
+      lineItemsContainer.innerHTML = "";
+
+      p.lineItems.forEach((li, idx) => {
+        const scaledLiPrice = Math.round(li.price * mult * weightMult);
+        const row = document.createElement("div");
+        row.style.display = "flex";
+        row.style.justifyContent = "space-between";
+        row.style.padding = "0.75rem 1rem";
+        if (idx % 2 === 1) row.style.background = "var(--slate-50)";
+        if (idx > 0) row.style.borderTop = "1px solid var(--slate-200)";
+
+        row.innerHTML = `
+          <span style="font-size: 0.9rem; color: var(--slate-700);">${li.name}</span>
+          <span style="font-size: 0.9rem; font-weight: 600; color: var(--slate-900);">£${scaledLiPrice.toLocaleString()}</span>
+        `;
+        lineItemsContainer.appendChild(row);
+      });
+
+      document.getElementById("modalAffiliateSlot").innerHTML = getAffiliateCardHTML(p);
+
+      openModal('detailModal');
+    }
+
+    function openCharityModal(e) { if (e) e.preventDefault(); openModal('charityAidModal'); }
+    function openPrivacyModal(e) { if (e) e.preventDefault(); openModal('privacyModal'); }
+
+    function checkCookies() {
+      if (!localStorage.getItem("caninecost_cookie_dismissed")) {
+        document.getElementById("cookieBanner").style.display = "flex";
+      }
+      const savedPostcode = localStorage.getItem("caninecost_postcode");
+      if (savedPostcode) {
+        const select = document.getElementById("postcodeSelect");
+        if (select.querySelector(`option[value="${savedPostcode}"]`)) select.value = savedPostcode;
+      }
+      const savedWeight = localStorage.getItem("caninecost_weight");
+      if (savedWeight) {
+        document.getElementById("weightSelect").value = savedWeight;
+        document.querySelectorAll('.weight-list-item').forEach(btn => {
+          if (btn.getAttribute('data-val') === savedWeight) {
+            document.querySelectorAll('.weight-list-item').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+          }
+        });
+      }
+    }
+
+    function dismissCookies() {
+      localStorage.setItem("caninecost_cookie_dismissed", "true");
+      document.getElementById("cookieBanner").style.display = "none";
+    }
+
+    window.addEventListener('keydown', (e) => {
+      const activeModal = document.querySelector('.modal-overlay.active');
+      if (e.key === 'Escape') {
+        closeModal('detailModal');
+        closeModal('charityAidModal');
+        closeModal('privacyModal');
+        document.getElementById('mobileMenu').classList.remove('active');
+      }
+      if (e.key === 'Tab' && activeModal) {
+        const focusable = activeModal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          last.focus(); e.preventDefault();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          first.focus(); e.preventDefault();
+        }
+      }
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      
+    // Apply branding from config
+    document.querySelectorAll('.operator-name').forEach(el => el.textContent = window.CANINE_CONFIG.branding.operatorName);
+    document.querySelectorAll('.contact-email').forEach(el => el.textContent = window.CANINE_CONFIG.branding.contactEmail);
+    document.querySelectorAll('a[href="mailto:contact-email-placeholder"]').forEach(el => el.href = "mailto:" + window.CANINE_CONFIG.branding.contactEmail);
+    document.querySelectorAll('.site-name').forEach(el => el.textContent = window.CANINE_CONFIG.branding.siteName);
+    document.title = window.CANINE_CONFIG.branding.siteName + " | " + window.CANINE_CONFIG.branding.tagline;
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    const metaDesc = document.getElementById('metaDesc');
+    if (metaDesc) metaDesc.content = window.CANINE_CONFIG.branding.tagline || "";
+
+    if (window.CANINE_CONFIG.branding.logoUrl) {
+      const logoImg = `<img src="${window.CANINE_CONFIG.branding.logoUrl}" alt="${window.CANINE_CONFIG.branding.siteName} Logo" style="height: 24px; width: auto; max-width: 100%; object-fit: contain; display: block;">`;
+      const headerLogo = document.getElementById('headerLogoIcon');
+      const footerLogo = document.getElementById('footerLogoIcon');
+      if (headerLogo) headerLogo.innerHTML = logoImg;
+      if (footerLogo) footerLogo.innerHTML = logoImg;
+    }
+
+    // Apply brand colors
+    const root = document.documentElement;
+    if (window.CANINE_CONFIG.branding.primaryColor) {
+      root.style.setProperty('--primary', window.CANINE_CONFIG.branding.primaryColor);
+    }
+    if (window.CANINE_CONFIG.branding.primaryDark) {
+      root.style.setProperty('--primary-dark', window.CANINE_CONFIG.branding.primaryDark);
+    }
+    if (window.CANINE_CONFIG.branding.primaryLight) {
+      root.style.setProperty('--primary-light', window.CANINE_CONFIG.branding.primaryLight);
+    }
+    
+    // Inject schema.org
+    const schema = {
+      "@context": "https://schema.org",
+      "@type": "MedicalWebPage",
+      "name": window.CANINE_CONFIG.branding.siteName + " Veterinary Cost Estimator",
+      "description": window.CANINE_CONFIG.branding.tagline,
+      "about": {
+        "@type": "MedicalCondition",
+        "name": "Canine Veterinary Procedures"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": window.CANINE_CONFIG.branding.operatorName
+      }
+    };
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(schema);
+    document.head.appendChild(script);
+    
+    // Emergency Banner
+    const bannerTxt = document.querySelector('.emergency-banner span:nth-of-type(1)');
+    if (bannerTxt && window.CANINE_CONFIG.branding.emergencyBannerText) {
+        bannerTxt.textContent = window.CANINE_CONFIG.branding.emergencyBannerText;
+    }
+
+      checkCookies();
+      renderProcedures();
+    });
+  </script>
+</body>
+</html>
