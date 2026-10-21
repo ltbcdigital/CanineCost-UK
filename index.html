@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Veterinary Cost Estimator</title>
-  <meta name="description" id="metaDesc" content="">
+  <meta name="description" id="metaDesc" content="Transparent UK veterinary surgery and procedure cost calculator with itemised price breakdowns and regional adjustments.">
   <link rel="canonical" id="canonicalUrl" href="">
   
   <style>
@@ -94,7 +94,7 @@
     .procedure-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
 
     .weight-list { display: flex; flex-direction: column; gap: 0.5rem; }
-    .weight-list-item { display: flex; justify-content: space-between; align-items: center; border-radius: 0.6rem; padding: 0.65rem 1rem; cursor: pointer; transition: all 0.15s ease; width: 100%; border-width: 1px; border-style: solid; }
+    .weight-list-item { display: flex; justify-content: space-between; align-items: center; border-radius: 0.6rem; padding: 0.65rem 1rem; cursor: pointer; transition: all 0.15s ease; width: 100%; border-width: 1px; border-style: solid; background: transparent; color: inherit; font: inherit; text-align: left; }
     .w-title { font-weight: 700; font-size: 0.95rem; text-align: left; }
     .w-sub { font-size: 0.85rem; text-align: right; }
 
@@ -150,7 +150,7 @@
   <div class="emergency-banner" role="region" aria-label="Emergency warning">
     <div class="container" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      <span>Is your dog in a <strong>critical condition or facing a life-threatening emergency</strong>? <strong>Do not use this website to check prices</strong>. Call your nearest 24/7 emergency vet hospital straight away.</span>
+      <span id="emergencyBannerText">Is your dog in a <strong>critical condition or facing a life-threatening emergency</strong>? <strong>Do not use this website to check prices</strong>. Call your nearest 24/7 emergency vet hospital straight away.</span>
     </div>
   </div>
 
@@ -189,11 +189,11 @@
   <section class="hero">
     <div class="container">
       <div style="display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
-        <span class="badge badge-teal">Independent UK Price Guide</span>
-        <span class="badge" style="background: var(--slate-100); color: var(--slate-700);" id="heroMetaBadge">Loading Postcodes &bull; 20% VAT Inclusive</span>
+        <span class="badge badge-teal">Clinical Price Guide</span>
+        <span class="badge" style="background: var(--slate-100); color: var(--slate-700);" id="heroMetaBadge">Loading Postcodes &bull; VAT Status Active</span>
       </div>
       <h1 class="hero-title">Transparent UK Dog Surgery & Vet Cost Estimator</h1>
-      <p class="hero-subtitle">Compare realistic, itemised veterinary costs across the United Kingdom. Adjusted for dog weight, regional clinic overheads, and statutory VAT with zero hidden fees.</p>
+      <p class="hero-subtitle">Compare realistic, itemised veterinary costs across the United Kingdom. Adjusted for dog weight, regional clinic overheads, and applicable statutory taxes with zero hidden fees.</p>
       
       <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
         <a href="#calculator" class="btn btn-primary">
@@ -223,21 +223,21 @@
         </div>
         
         <div>
-          <label>2. Dog Weight Class</label>
-          <div class="weight-list" role="radiogroup" aria-label="Dog Weight Class">
-            <button type="button" class="weight-list-item" role="radio" aria-checked="false" data-val="0.8" onclick="selectWeight(0.8, this)">
+          <label id="weightLabel">2. Dog Weight Class</label>
+          <div class="weight-list" role="radiogroup" aria-labelledby="weightLabel" id="weightRadioGroup">
+            <button type="button" class="weight-list-item" role="radio" aria-checked="false" data-val="0.8" tabindex="0" onclick="selectWeight(0.8, this)">
               <span class="w-title">Toy</span>
               <span class="w-sub">&lt; 5kg</span>
             </button>
-            <button type="button" class="weight-list-item active" role="radio" aria-checked="true" data-val="1.0" onclick="selectWeight(1.0, this)">
+            <button type="button" class="weight-list-item active" role="radio" aria-checked="true" data-val="1.0" tabindex="-1" onclick="selectWeight(1.0, this)">
               <span class="w-title">Small / Med</span>
               <span class="w-sub">5 – 20kg</span>
             </button>
-            <button type="button" class="weight-list-item" role="radio" aria-checked="false" data-val="1.3" onclick="selectWeight(1.3, this)">
+            <button type="button" class="weight-list-item" role="radio" aria-checked="false" data-val="1.3" tabindex="-1" onclick="selectWeight(1.3, this)">
               <span class="w-title">Large</span>
               <span class="w-sub">20 – 40kg</span>
             </button>
-            <button type="button" class="weight-list-item" role="radio" aria-checked="false" data-val="1.6" onclick="selectWeight(1.6, this)">
+            <button type="button" class="weight-list-item" role="radio" aria-checked="false" data-val="1.6" tabindex="-1" onclick="selectWeight(1.6, this)">
               <span class="w-title">Giant</span>
               <span class="w-sub">&gt; 40kg</span>
             </button>
@@ -269,7 +269,13 @@
 
     <!-- Procedure Grid Container -->
     <div id="procedureGrid" style="margin-bottom: 4rem;">
-      <!-- Populated dynamically via JavaScript -->
+      <!-- Populated dynamically via JavaScript with noscript fallback -->
+      <noscript>
+        <div style="padding: 2rem; background: white; border-radius: 1rem; border: 1px solid #e2e8f0; text-align: center;">
+          <h3 style="margin-bottom: 1rem; color: #0f172a;">Veterinary Procedure Index</h3>
+          <p style="color: #475569; margin-bottom: 1.5rem;">JavaScript is required to use the interactive postcode and weight calculator. Please enable JavaScript to view live itemised estimates.</p>
+        </div>
+      </noscript>
     </div>
   </main>
 
@@ -291,7 +297,7 @@
       </div>
 
       <div style="background: var(--slate-50); border-radius: 0.75rem; padding: 1.25rem; margin-bottom: 1.5rem;">
-        <div style="font-size: 0.875rem; color: var(--slate-700); margin-bottom: 0.25rem;">Estimated Total (Includes 20% UK VAT &bull; Line-item rounded aggregate)</div>
+        <div style="font-size: 0.875rem; color: var(--slate-700); margin-bottom: 0.25rem;" id="modalTaxLabel">Estimated Total (Line-item rounded aggregate)</div>
         <div id="modalPrice" style="font-size: 2.25rem; font-weight: 800; color: var(--primary);">£0</div>
         <div id="modalRange" style="font-size: 0.85rem; color: var(--slate-700); margin-top: 0.25rem;">Expected range: £0 - £0</div>
       </div>
@@ -306,7 +312,7 @@
       <div class="print-watermark">
         <strong><span class="site-name"></span> Estimated Cost Breakdown</strong><br>
         Operated by <span class="operator-name"></span>.<br>
-        Prices include 20% UK VAT. Independent average price guide for clinical comparison.
+        <span id="printVatNotice">Prices include applicable statutory taxes.</span> Price guide for clinical comparison.
       </div>
 
       <!-- Dynamic Affiliate / Action Slot -->
@@ -439,7 +445,7 @@
     <div class="container">
       <div style="border-top: 1px solid #1e293b; padding-top: 1.5rem; font-size: 0.8rem; color: #64748b; text-align: center; display: flex; flex-direction: column; gap: 0.5rem; align-items: center;">
         <div>&copy; <span id="currentYear"></span> <span class="operator-name"></span>. All rights reserved. Prices last reviewed: <span id="footerReviewDate">October 2026</span>.</div>
-        <div>Prices include 20% UK statutory VAT. Independent average price guides.</div>
+        <div id="footerMethodologyNote"></div>
       </div>
     </div>
   </footer>
@@ -455,15 +461,15 @@
 
   <script src="config.js"></script>
   <script>
-    // Safeguard check if config.js fails to load
-    if (typeof window.CANINE_CONFIG === 'undefined') {
+    // Safeguard check if config.js or required data fails to load
+    if (typeof window.CANINE_CONFIG === 'undefined' || !window.CANINE_CONFIG.procedures || !window.CANINE_CONFIG.postcodes) {
       document.body.innerHTML = `
         <div style="max-width: 600px; margin: 100px auto; padding: 2rem; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 12px; text-align: center; font-family: sans-serif;">
           <h2 style="color: #9f1239; margin-bottom: 1rem;">Configuration Error</h2>
-          <p style="color: #475569; line-height: 1.5;">The configuration file (<code>config.js</code>) failed to load or is missing. Please ensure <code>config.js</code> is uploaded in the same directory as <code>index.html</code>.</p>
+          <p style="color: #475569; line-height: 1.5;">The configuration file (<code>config.js</code>) failed to load, or is missing required <code>procedures</code> and <code>postcodes</code> structures.</p>
         </div>
       `;
-      throw new Error("CANINE_CONFIG missing");
+      throw new Error("CANINE_CONFIG invalid or missing");
     }
 
     const procedures = window.CANINE_CONFIG.procedures;
@@ -480,15 +486,63 @@
     }
 
     function selectWeight(val, btn) {
-      document.querySelectorAll('.weight-list-item').forEach(card => {
+      const items = document.querySelectorAll('.weight-list-item');
+      items.forEach(card => {
         card.classList.remove('active');
         card.setAttribute('aria-checked', 'false');
+        card.setAttribute('tabindex', '-1');
       });
       btn.classList.add('active');
       btn.setAttribute('aria-checked', 'true');
+      btn.setAttribute('tabindex', '0');
       document.getElementById('weightSelect').value = val;
       localStorage.setItem('caninecost_weight', val);
       updateEstimates();
+    }
+
+    // Arrow key navigation for weight radio group
+    document.addEventListener('DOMContentLoaded', () => {
+      const group = document.getElementById('weightRadioGroup');
+      if (group) {
+        group.addEventListener('keydown', (e) => {
+          const items = Array.from(group.querySelectorAll('.weight-list-item'));
+          const idx = items.indexOf(document.activeElement);
+          if (idx === -1) return;
+          let nextIdx = idx;
+          if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+            nextIdx = (idx + 1) % items.length;
+            e.preventDefault();
+          } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+            nextIdx = (idx - 1 + items.length) % items.length;
+            e.preventDefault();
+          }
+          if (nextIdx !== idx) {
+            items[nextIdx].focus();
+            items[nextIdx].click();
+          }
+        });
+      }
+    });
+
+    function calculateProcedurePrice(p, postcodeKey, weightMult) {
+      const postcodeObj = postcodeData[postcodeKey] || { mult: 1.0, vat: true };
+      const mult = postcodeObj.mult;
+      const appliesVat = postcodeObj.vat !== false;
+
+      let netTotal = 0;
+      if (p.lineItems && p.lineItems.length > 0) {
+        netTotal = p.lineItems.reduce((sum, li) => {
+          const isFixed = li.fixed === true;
+          const effectiveMultiplier = isFixed ? mult : (mult * weightMult);
+          return sum + Math.round(li.price * effectiveMultiplier);
+        }, 0);
+      } else {
+        netTotal = Math.round(p.basePrice * mult * weightMult);
+      }
+
+      // Apply 20% VAT if applicable to the region (UK mainland vs Channel Islands)
+      const finalPrice = appliesVat ? Math.round(netTotal * 1.20) : netTotal;
+      return finalPrice;
     }
 
     function renderProcedures() {
@@ -515,9 +569,9 @@
       }
 
       const postcodeKey = document.getElementById("postcodeSelect").value;
-      const postcodeObj = postcodeData[postcodeKey] || { mult: 1.0, name: "Baseline" };
-      const mult = postcodeObj.mult;
+      const postcodeObj = postcodeData[postcodeKey] || { mult: 1.0, vat: true };
       const weightMult = parseFloat(document.getElementById("weightSelect").value);
+      const isVatApplied = postcodeObj.vat !== false;
 
       const categoryLayout = [
         { id: 'EMERGENCY', title: '🚨 Emergency & Life-Threatening' },
@@ -544,17 +598,7 @@
           grid.className = "procedure-grid";
 
           catProcedures.forEach(p => {
-            let finalPrice = 0;
-            if (p.lineItems && p.lineItems.length > 0) {
-              finalPrice = p.lineItems.reduce((sum, li) => {
-                const isFixed = li.fixed === true;
-                const effectiveMultiplier = isFixed ? mult : (mult * weightMult);
-                return sum + Math.round(li.price * effectiveMultiplier);
-              }, 0);
-            } else {
-              finalPrice = Math.round(p.basePrice * mult * weightMult);
-            }
-
+            const finalPrice = calculateProcedurePrice(p, postcodeKey, weightMult);
             const lowRange = Math.round(finalPrice * 0.85);
             const highRange = Math.round(finalPrice * 1.20);
 
@@ -566,7 +610,7 @@
               <div>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
                   <span class="badge ${p.emergency ? 'badge-rose' : 'badge-teal'}">${p.emergency ? 'Emergency' : p.category.replace('_', ' ')}</span>
-                  <span style="font-size: 0.75rem; color: var(--slate-700);">VAT Inc.</span>
+                  <span style="font-size: 0.75rem; color: var(--slate-700);">${isVatApplied ? 'VAT Inc.' : 'No VAT'}</span>
                 </div>
                 <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--slate-900); margin-bottom: 0.5rem; line-height: 1.4;">${p.name}</h3>
                 <p style="font-size: 0.875rem; color: var(--slate-700); margin-bottom: 1.25rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${p.desc}</p>
@@ -618,13 +662,12 @@
     }
 
     function getAffiliateCardHTML(procedure) {
+      const bookingUrl = window.CANINE_CONFIG.branding.bookingUrl || "";
       const isEmergency = procedure.emergency === true;
       const rawPhone = window.CANINE_CONFIG.branding.emergencyPhone || "";
       const cleanedPhone = rawPhone.replace(/\s+/g, '');
-      const actionText = isEmergency ? (cleanedPhone ? "Call Emergency Vet" : "Contact 24/7 Hospital") : "Book Now";
       
       if (isEmergency && !cleanedPhone) {
-        // Hide emergency button entirely if no phone is configured
         return `
           <div class="recommendation-card" style="border-color: var(--rose-650); background: var(--rose-50);">
             <div class="card-layout">
@@ -638,7 +681,12 @@
         `;
       }
 
-      const actionUrl = isEmergency ? `tel:${cleanedPhone}` : window.CANINE_CONFIG.branding.bookingUrl;
+      if (!isEmergency && !bookingUrl) {
+        return ""; // Hide card entirely if booking URL is not configured
+      }
+
+      const actionText = isEmergency ? "Call Emergency Vet" : "Book Now";
+      const actionUrl = isEmergency ? `tel:${cleanedPhone}` : bookingUrl;
       const subtitleText = isEmergency ? "For life-threatening emergencies, do not wait for online estimates. Speak to emergency veterinary triage immediately." : "Contact our clinic directly to schedule an assessment.";
 
       return `
@@ -665,11 +713,12 @@
       currentSelectedProcedure = p;
 
       const postcodeKey = document.getElementById("postcodeSelect").value;
-      const postcodeObj = postcodeData[postcodeKey] || { mult: 1.0 };
+      const postcodeObj = postcodeData[postcodeKey] || { mult: 1.0, vat: true };
       const mult = postcodeObj.mult;
       const weightMult = parseFloat(document.getElementById("weightSelect").value);
+      const appliesVat = postcodeObj.vat !== false;
 
-      let finalPrice = 0;
+      let netTotal = 0;
       const lineItemsContainer = document.getElementById("modalLineItems");
       lineItemsContainer.innerHTML = "";
 
@@ -677,7 +726,7 @@
         const isFixed = li.fixed === true;
         const effectiveMultiplier = isFixed ? mult : (mult * weightMult);
         const scaledLiPrice = Math.round(li.price * effectiveMultiplier);
-        finalPrice += scaledLiPrice;
+        netTotal += scaledLiPrice;
 
         const row = document.createElement("div");
         row.style.display = "flex";
@@ -693,6 +742,7 @@
         lineItemsContainer.appendChild(row);
       });
 
+      const finalPrice = appliesVat ? Math.round(netTotal * 1.20) : netTotal;
       const lowRange = Math.round(finalPrice * 0.85);
       const highRange = Math.round(finalPrice * 1.20);
 
@@ -700,7 +750,8 @@
       document.getElementById("modalCategoryBadge").className = p.emergency ? 'badge badge-rose' : 'badge badge-teal';
       document.getElementById("modalTitle").innerText = p.name;
       document.getElementById("modalPrice").innerText = `£${finalPrice.toLocaleString()}`;
-      document.getElementById("modalRange").innerText = `Expected range across UK clinics: £${lowRange.toLocaleString()} – £${highRange.toLocaleString()}`;
+      document.getElementById("modalTaxLabel").innerText = appliesVat ? "Estimated Total (Includes 20% UK VAT)" : "Estimated Total (No VAT / Channel Islands)";
+      document.getElementById("modalRange").innerText = `Expected range across clinics: £${lowRange.toLocaleString()} – £${highRange.toLocaleString()}`;
       document.getElementById("modalDesc").innerText = `${p.desc} Recovery expectation: ${p.recovery}`;
 
       const emergencyWarning = document.getElementById("modalEmergencyWarning");
@@ -721,17 +772,24 @@
       
       const postcodeSelect = document.getElementById("postcodeSelect");
       postcodeSelect.innerHTML = "";
+
+      const defaultOpt = document.createElement("option");
+      defaultOpt.value = "";
+      defaultOpt.textContent = "— Select your postcode —";
+      defaultOpt.disabled = true;
+      defaultOpt.selected = true;
+      postcodeSelect.appendChild(defaultOpt);
+
       const sortedKeys = Object.keys(postcodeData).sort();
       sortedKeys.forEach(code => {
         const opt = document.createElement("option");
         opt.value = code;
         opt.textContent = `${code} – ${postcodeData[code].name}`;
-        if (code === "GL") opt.selected = true;
         postcodeSelect.appendChild(opt);
       });
 
       const savedPostcode = localStorage.getItem("caninecost_postcode");
-      if (savedPostcode && postcodeSelect.querySelector(`option[value="${savedPostcode}"]`)) {
+      if (savedPostcode && postcodeData[savedPostcode]) {
         postcodeSelect.value = savedPostcode;
       }
 
@@ -743,9 +801,11 @@
             document.querySelectorAll('.weight-list-item').forEach(c => {
               c.classList.remove('active');
               c.setAttribute('aria-checked', 'false');
+              c.setAttribute('tabindex', '-1');
             });
             btn.classList.add('active');
             btn.setAttribute('aria-checked', 'true');
+            btn.setAttribute('tabindex', '0');
           }
         });
       }
@@ -754,7 +814,7 @@
       const procedureCount = procedures.length;
       const heroBadge = document.getElementById('heroMetaBadge');
       if (heroBadge) {
-        heroBadge.innerHTML = `${postcodeCount} Postcodes &bull; ${procedureCount} Procedures &bull; 20% VAT Inclusive`;
+        heroBadge.innerHTML = `${postcodeCount} Postcodes &bull; ${procedureCount} Procedures &bull; Regional Tax Active`;
       }
     }
 
@@ -802,12 +862,23 @@
         reviewDateEl.textContent = window.CANINE_CONFIG.branding.pricesLastReviewed;
       }
       
+      const methodologyEl = document.getElementById('footerMethodologyNote');
+      if (methodologyEl) {
+        const sourceText = window.CANINE_CONFIG.branding.priceSource || "";
+        methodologyEl.textContent = sourceText;
+      }
+      
       const metaDesc = document.getElementById('metaDesc');
-      if (metaDesc) metaDesc.content = window.CANINE_CONFIG.branding.tagline || "";
+      if (metaDesc && window.CANINE_CONFIG.branding.tagline) {
+        metaDesc.content = window.CANINE_CONFIG.branding.tagline;
+      }
 
       const canonicalEl = document.getElementById('canonicalUrl');
-      if (canonicalEl && window.CANINE_CONFIG.branding.siteUrl) {
-        canonicalEl.href = window.CANINE_CONFIG.branding.siteUrl;
+      const siteUrl = window.CANINE_CONFIG.branding.siteUrl || "";
+      if (canonicalEl && siteUrl.trim() !== "") {
+        canonicalEl.href = siteUrl;
+      } else if (canonicalEl) {
+        canonicalEl.remove(); // Skip tag entirely if empty so template buyers don't inherit hardcoded workers.dev links
       }
 
       if (window.CANINE_CONFIG.branding.logoUrl) {
@@ -852,9 +923,9 @@
       script.text = JSON.stringify(schema);
       document.head.appendChild(script);
       
-      const bannerTxt = document.querySelector('.emergency-banner span:nth-of-type(1)');
-      if (bannerTxt && window.CANINE_CONFIG.branding.emergencyBannerText) {
-          bannerTxt.innerHTML = window.CANINE_CONFIG.branding.emergencyBannerText;
+      const bannerContainer = document.getElementById('emergencyBannerText');
+      if (bannerContainer && window.CANINE_CONFIG.branding.emergencyBannerText) {
+          bannerContainer.innerHTML = window.CANINE_CONFIG.branding.emergencyBannerText;
       }
 
       checkCookies();
