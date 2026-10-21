@@ -23,7 +23,7 @@ window.CANINE_CONFIG = {
   postcodes: {
       "AB": { name: "Aberdeen", mult: 1.10, vat: true },
       "AL": { name: "St Albans", mult: 1.22, vat: true },
-      "B": { name: "Birmingham / West Midlands", mult: 0.97, vat: true },
+      "B": { name: "Birmingham / West Midlands (Baseline)", mult: 0.97, vat: true },
       "BA": { name: "Bath", mult: 1.02, vat: true },
       "BB": { name: "Blackburn", mult: 0.96, vat: true },
       "BD": { name: "Bradford", mult: 0.97, vat: true },
