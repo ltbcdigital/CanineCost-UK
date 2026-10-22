@@ -480,11 +480,12 @@
   <script src="config.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', () => {
-      if (typeof window.CANINE_CONFIG === 'undefined' || !window.CANINE_CONFIG.procedures || !window.CANINE_CONFIG.postcodes) {
+      // Config Validation Guard (Catches broken config objects safely)
+      if (typeof window.CANINE_CONFIG === 'undefined' || !window.CANINE_CONFIG.procedures || !window.CANINE_CONFIG.postcodes || !window.CANINE_CONFIG.branding) {
         document.body.innerHTML = `
           <div style="max-width: 600px; margin: 100px auto; padding: 2rem; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 12px; text-align: center; font-family: sans-serif;">
             <h2 style="color: #9f1239; margin-bottom: 1rem;">Configuration Error</h2>
-            <p style="color: #475569; line-height: 1.5;">The configuration file (<code>config.js</code>) failed to load, or is missing required <code>procedures</code> and <code>postcodes</code> structures.</p>
+            <p style="color: #475569; line-height: 1.5;">The configuration file (<code>config.js</code>) is missing required <code>branding</code>, <code>procedures</code>, or <code>postcodes</code> data. Please verify your config structure.</p>
           </div>
         `;
         return;
